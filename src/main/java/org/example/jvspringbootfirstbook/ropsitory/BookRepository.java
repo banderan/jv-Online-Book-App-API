@@ -1,9 +1,7 @@
 package org.example.jvspringbootfirstbook.ropsitory;
 
-import org.example.jvspringbootfirstbook.model.Book;
-
 import java.util.List;
-import java.util.Optional;
+import org.example.jvspringbootfirstbook.model.Book;
 
 public interface BookRepository {
     Book save(Book book);
