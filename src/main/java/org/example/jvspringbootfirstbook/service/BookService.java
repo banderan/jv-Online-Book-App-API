@@ -2,12 +2,10 @@ package org.example.jvspringbootfirstbook.service;
 
 import org.example.jvspringbootfirstbook.model.Book;
 
+import java.util.List;
+
 public interface BookService {
     Book save(Book book);
 
-    Book getBookById(int id);
-
-    Book getBookByTitle(String title);
-
-    Book getBookByAuthor(String author);
+    List<Book> findAll();
 }

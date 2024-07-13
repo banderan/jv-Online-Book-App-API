@@ -2,6 +2,8 @@ package org.example.jvspringbootfirstbook.service;
 
 import org.example.jvspringbootfirstbook.model.Book;
 
+import java.util.List;
+
 public class BookServiceImpl implements BookService {
     @Override
     public Book save(Book book) {
@@ -9,17 +11,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Book getBookById(int id) {
-        return null;
-    }
-
-    @Override
-    public Book getBookByTitle(String title) {
-        return null;
-    }
-
-    @Override
-    public Book getBookByAuthor(String author) {
-        return null;
+    public List<Book> findAll() {
+        return List.of();
     }
 }
