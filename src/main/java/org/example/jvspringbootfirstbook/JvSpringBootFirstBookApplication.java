@@ -38,7 +38,10 @@ public class JvSpringBootFirstBookApplication {
             }
         };
     }
-    private static Book bookCreation(String title, String author, String isbn, BigDecimal price, String coverImage, String description) {
+
+    private static Book bookCreation(String title, String author,
+                                     String isbn, BigDecimal price,
+                                     String coverImage, String description) {
         Book book = new Book();
         book.setTitle(title);
         book.setAuthor(author);
