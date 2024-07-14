@@ -1,4 +1,4 @@
-package org.example.jvspringbootfirstbook.ropsitory;
+package org.example.jvspringbootfirstbook.repsitory;
 
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
@@ -10,14 +10,12 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.criteria.HibernateCriteriaBuilder;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class BookRepositoryImpl implements BookRepository {
     private final SessionFactory sessionFactory;
 
-    @Autowired
     public BookRepositoryImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
@@ -51,7 +49,8 @@ public class BookRepositoryImpl implements BookRepository {
             CriteriaQuery<Book> query = criteriaBuilder.createQuery(Book.class);
             Root<Book> root = query.from(Book.class);
 
-            return session.createQuery(query).list();
+            query.select(root);
+            return session.createQuery(query).getResultList();
         } catch (HibernateException e) {
             throw new DataProcessingException("Unable to find all books", e);
         }
