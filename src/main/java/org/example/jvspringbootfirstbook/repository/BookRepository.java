@@ -1,4 +1,4 @@
-package org.example.jvspringbootfirstbook.repsitory;
+package org.example.jvspringbootfirstbook.repository;
 
 import java.util.List;
 import org.example.jvspringbootfirstbook.model.Book;

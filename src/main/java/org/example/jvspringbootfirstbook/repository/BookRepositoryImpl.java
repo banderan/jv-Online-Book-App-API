@@ -1,4 +1,4 @@
-package org.example.jvspringbootfirstbook.repsitory;
+package org.example.jvspringbootfirstbook.repository;
 
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;

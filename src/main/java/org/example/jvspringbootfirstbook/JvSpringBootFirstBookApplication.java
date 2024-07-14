@@ -25,10 +25,10 @@ public class JvSpringBootFirstBookApplication {
     public CommandLineRunner commandLineRunner() {
         return new CommandLineRunner() {
             public void run(String... args) throws Exception {
-                Book firstBook = bookCreation("1984", AUTHOR_GEORGE_ORWELL,
+                Book firstBook = createBook("1984", AUTHOR_GEORGE_ORWELL,
                         "1234", PRICE_11_99,
                         "hand with eye", null);
-                Book secondBook = bookCreation("Folwark zwierzęcy", AUTHOR_GEORGE_ORWELL,
+                Book secondBook = createBook("Folwark zwierzęcy", AUTHOR_GEORGE_ORWELL,
                         "4321", PRICE_11_99,
                         null, "Book about animals");
                 bookService.save(firstBook);
@@ -39,9 +39,9 @@ public class JvSpringBootFirstBookApplication {
         };
     }
 
-    private static Book bookCreation(String title, String author,
-                                     String isbn, BigDecimal price,
-                                     String coverImage, String description) {
+    private static Book createBook(String title, String author,
+                                   String isbn, BigDecimal price,
+                                   String coverImage, String description) {
         Book book = new Book();
         book.setTitle(title);
         book.setAuthor(author);
