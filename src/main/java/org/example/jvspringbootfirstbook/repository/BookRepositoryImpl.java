@@ -60,17 +60,9 @@ public class BookRepositoryImpl implements BookRepository {
     @Override
     public Optional<Book> findById(Long id) {
         try (EntityManager session = entityManagerFactory.createEntityManager()) {
-            CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-            CriteriaQuery<Book> query = criteriaBuilder.createQuery(Book.class);
-            Root<Book> root = query.from(Book.class);
-
-            Predicate idPredicate = criteriaBuilder
-                    .equal(root.get("id"), id);
-            query.where(idPredicate);
-            Book singleResult = session.createQuery(query)
-                    .getSingleResult();
-            return singleResult == null ? Optional.empty()
-                    : Optional.of(singleResult);
+            return Optional.ofNullable(session.find(Book.class, id));
+        } catch (HibernateException e) {
+            throw new DataProcessingException("Unable to find book", e);
         }
     }
 }
