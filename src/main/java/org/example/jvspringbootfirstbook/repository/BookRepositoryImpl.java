@@ -62,7 +62,8 @@ public class BookRepositoryImpl implements BookRepository {
         try (EntityManager session = entityManagerFactory.createEntityManager()) {
             return Optional.ofNullable(session.find(Book.class, id));
         } catch (HibernateException e) {
-            throw new DataProcessingException("Unable to find book", e);
+            throw new DataProcessingException("Unable to find book by id "
+                    + id, e);
         }
     }
 }
