@@ -37,6 +37,12 @@ public class BookController {
         return bookService.save(createBookRequestDto);
     }
 
+    @PostMapping("/{id}")
+    public BookDto update(@PathVariable Long id, @RequestBody
+                              CreateBookRequestDto createBookRequestDto) {
+        return bookService.update(id, createBookRequestDto);
+    }
+
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
