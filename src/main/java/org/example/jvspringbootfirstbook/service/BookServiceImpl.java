@@ -3,11 +3,14 @@ package org.example.jvspringbootfirstbook.service;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.example.jvspringbootfirstbook.dto.BookDto;
+import org.example.jvspringbootfirstbook.dto.BookSearchParametersDto;
 import org.example.jvspringbootfirstbook.dto.CreateBookRequestDto;
 import org.example.jvspringbootfirstbook.exception.EntityNotFoundException;
 import org.example.jvspringbootfirstbook.mapper.BooksMapper;
 import org.example.jvspringbootfirstbook.model.Book;
-import org.example.jvspringbootfirstbook.repository.BookRepository;
+import org.example.jvspringbootfirstbook.repository.book.BookRepository;
+import org.example.jvspringbootfirstbook.repository.book.BookSpecificationBuilder;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
@@ -15,6 +18,7 @@ import org.springframework.stereotype.Service;
 public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
     private final BooksMapper bookMapping;
+    private final BookSpecificationBuilder bookSpecificationBuilder;
 
     @Override
     public BookDto save(CreateBookRequestDto createBookRequestDto) {
@@ -47,5 +51,12 @@ public class BookServiceImpl implements BookService {
         model.setId(id);
         bookRepository.updateBookById(id, model);
         return bookMapping.toBookDto(model);
+    }
+
+    @Override
+    public List<BookDto> searchBooks(BookSearchParametersDto searchParameters) {
+        Specification<Book> bookSpecification = bookSpecificationBuilder.build(searchParameters);
+        List<Book> bookList = bookRepository.findAll(bookSpecification);
+        return bookList.stream().map(bookMapping::toBookDto).toList();
     }
 }
