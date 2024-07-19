@@ -49,7 +49,6 @@ public class BookController {
         return bookService.searchBooks(searchParameters);
     }
 
-
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
