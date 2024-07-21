@@ -2,7 +2,7 @@ package org.example.jvspringbootfirstbook.repository.book;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.example.jvspringbootfirstbook.exception.DataProcessingException;
+import org.example.jvspringbootfirstbook.exception.ProviderException;
 import org.example.jvspringbootfirstbook.model.Book;
 import org.example.jvspringbootfirstbook.repository.SpecificationProvider;
 import org.example.jvspringbootfirstbook.repository.SpecificationProviderManager;
@@ -18,7 +18,7 @@ public class BookSpecificationProviderManager implements SpecificationProviderMa
         return specificationProviders.stream()
                 .filter(b -> b.getKey().equals(key))
                 .findFirst().orElseThrow(
-                        () -> new DataProcessingException(
+                        () -> new ProviderException(
                                 "Could not find specification provider for key: " + key)
                 );
     }
