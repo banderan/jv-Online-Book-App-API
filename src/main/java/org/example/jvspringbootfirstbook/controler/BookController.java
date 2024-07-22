@@ -40,7 +40,7 @@ public class BookController {
     }
 
     @PostMapping("/{id}")
-    public BookDto update(@PathVariable Long id, @RequestBody @Valid
+    public BookDto updateBookById(@PathVariable Long id, @RequestBody @Valid
                               CreateBookRequestDto createBookRequestDto) {
         return bookService.update(id, createBookRequestDto);
     }
