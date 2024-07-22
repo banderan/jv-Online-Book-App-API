@@ -1,5 +1,6 @@
 package org.example.jvspringbootfirstbook.controler;
 
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.example.jvspringbootfirstbook.dto.BookDto;
@@ -33,13 +34,13 @@ public class BookController {
     }
 
     @PostMapping
-    public BookDto createBook(@RequestBody
+    public BookDto createBook(@RequestBody @Valid
                               CreateBookRequestDto createBookRequestDto) {
         return bookService.save(createBookRequestDto);
     }
 
     @PostMapping("/{id}")
-    public BookDto update(@PathVariable Long id, @RequestBody
+    public BookDto updateBookById(@PathVariable Long id, @RequestBody @Valid
                               CreateBookRequestDto createBookRequestDto) {
         return bookService.update(id, createBookRequestDto);
     }
