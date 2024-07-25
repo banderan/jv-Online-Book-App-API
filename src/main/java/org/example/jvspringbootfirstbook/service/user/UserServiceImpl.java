@@ -1,4 +1,4 @@
-package org.example.jvspringbootfirstbook.service.userServices;
+package org.example.jvspringbootfirstbook.service.user;
 
 import lombok.RequiredArgsConstructor;
 import org.example.jvspringbootfirstbook.dto.UserRegistrationRequestDto;

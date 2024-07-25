@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.jvspringbootfirstbook.dto.UserRegistrationRequestDto;
 import org.example.jvspringbootfirstbook.dto.UserResponseDto;
 import org.example.jvspringbootfirstbook.exception.RegistrationException;
-import org.example.jvspringbootfirstbook.service.userServices.UserService;
+import org.example.jvspringbootfirstbook.service.user.UserService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
