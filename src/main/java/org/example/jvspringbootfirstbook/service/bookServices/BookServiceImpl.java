@@ -1,4 +1,4 @@
-package org.example.jvspringbootfirstbook.service;
+package org.example.jvspringbootfirstbook.service.bookServices;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
