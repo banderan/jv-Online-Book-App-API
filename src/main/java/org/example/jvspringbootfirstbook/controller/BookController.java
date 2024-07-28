@@ -1,4 +1,4 @@
-package org.example.jvspringbootfirstbook.controler;
+package org.example.jvspringbootfirstbook.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.jvspringbootfirstbook.dto.BookDto;
 import org.example.jvspringbootfirstbook.dto.BookSearchParametersDto;
 import org.example.jvspringbootfirstbook.dto.CreateBookRequestDto;
-import org.example.jvspringbootfirstbook.service.BookService;
+import org.example.jvspringbootfirstbook.service.book.BookService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
