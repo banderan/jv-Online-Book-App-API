@@ -2,6 +2,7 @@ package org.example.jvspringbootfirstbook.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.example.jvspringbootfirstbook.dto.user.UserLoginRequestDto;
 import org.example.jvspringbootfirstbook.dto.user.UserRegistrationRequestDto;
 import org.example.jvspringbootfirstbook.dto.user.UserResponseDto;
 import org.example.jvspringbootfirstbook.exception.RegistrationException;
@@ -21,5 +22,10 @@ public class AuthenticationController {
     public UserResponseDto register(
             @RequestBody @Valid UserRegistrationRequestDto request) throws RegistrationException {
         return userService.register(request);
+    }
+
+    @PostMapping("/login")
+    public boolean login(@RequestBody @Valid UserLoginRequestDto loginRequestDto) {
+        return true;
     }
 }

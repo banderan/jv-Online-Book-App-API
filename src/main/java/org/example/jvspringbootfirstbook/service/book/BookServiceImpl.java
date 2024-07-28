@@ -1,15 +1,21 @@
 package org.example.jvspringbootfirstbook.service.book;
 
 import java.util.List;
+import java.util.Optional;
+
 import lombok.RequiredArgsConstructor;
 import org.example.jvspringbootfirstbook.dto.book.BookDto;
 import org.example.jvspringbootfirstbook.dto.book.BookSearchParametersDto;
 import org.example.jvspringbootfirstbook.dto.book.CreateBookRequestDto;
+import org.example.jvspringbootfirstbook.dto.user.UserResponseDto;
 import org.example.jvspringbootfirstbook.exception.EntityNotFoundException;
 import org.example.jvspringbootfirstbook.mapper.BooksMapper;
 import org.example.jvspringbootfirstbook.model.Book;
+import org.example.jvspringbootfirstbook.model.User;
 import org.example.jvspringbootfirstbook.repository.book.BookRepository;
 import org.example.jvspringbootfirstbook.repository.book.BookSpecificationBuilder;
+import org.example.jvspringbootfirstbook.repository.user.UserRepository;
+import org.example.jvspringbootfirstbook.service.user.UserService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
