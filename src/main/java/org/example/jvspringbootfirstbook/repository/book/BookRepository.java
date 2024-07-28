@@ -8,6 +8,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BookRepository extends JpaRepository<Book, Long>, JpaSpecificationExecutor<Book> {
-    @Query("UPDATE Book b SET b = :book WHERE b.id = :id")
-    int updateBookById(Long id,Book book);
 }
