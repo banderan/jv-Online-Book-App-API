@@ -1,4 +1,4 @@
-package org.example.jvspringbootfirstbook.controler;
+package org.example.jvspringbootfirstbook.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,6 @@ public class AuthenticationController {
     @PostMapping("/registration")
     public UserResponseDto register(
             @RequestBody @Valid UserRegistrationRequestDto request) throws RegistrationException {
-
         return userService.register(request);
     }
 }

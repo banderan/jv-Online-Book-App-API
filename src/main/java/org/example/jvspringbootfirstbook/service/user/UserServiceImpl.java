@@ -5,6 +5,7 @@ import org.example.jvspringbootfirstbook.dto.UserRegistrationRequestDto;
 import org.example.jvspringbootfirstbook.dto.UserResponseDto;
 import org.example.jvspringbootfirstbook.exception.RegistrationException;
 import org.example.jvspringbootfirstbook.mapper.UserMapper;
+import org.example.jvspringbootfirstbook.model.User;
 import org.example.jvspringbootfirstbook.repository.user.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -16,10 +17,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponseDto register(UserRegistrationRequestDto request) {
-        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
+        checkIfUserExists(request.getEmail());
+        User user = userMapper.toModel(request);
+        User savedUser = userRepository.save(user);
+        return userMapper.toDto(savedUser);
+    }
+
+    private void checkIfUserExists(String email) {
+        if (userRepository.findByEmail(email).isPresent()) {
             throw new RegistrationException("User already exists");
         }
-        return userMapper.toDto(
-                userMapper.toModel(request));
     }
 }

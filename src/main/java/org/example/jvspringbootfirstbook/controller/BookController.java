@@ -1,4 +1,4 @@
-package org.example.jvspringbootfirstbook.controler;
+package org.example.jvspringbootfirstbook.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
