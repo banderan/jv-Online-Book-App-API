@@ -1,4 +1,4 @@
-package org.example.jvspringbootfirstbook.dto;
+package org.example.jvspringbootfirstbook.dto.book;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

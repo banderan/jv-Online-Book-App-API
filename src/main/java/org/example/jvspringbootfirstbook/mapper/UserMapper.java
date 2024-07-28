@@ -1,8 +1,8 @@
 package org.example.jvspringbootfirstbook.mapper;
 
 import org.example.jvspringbootfirstbook.config.MapperConfig;
-import org.example.jvspringbootfirstbook.dto.UserRegistrationRequestDto;
-import org.example.jvspringbootfirstbook.dto.UserResponseDto;
+import org.example.jvspringbootfirstbook.dto.user.UserRegistrationRequestDto;
+import org.example.jvspringbootfirstbook.dto.user.UserResponseDto;
 import org.example.jvspringbootfirstbook.model.User;
 import org.mapstruct.Mapper;
 

@@ -3,7 +3,7 @@ package org.example.jvspringbootfirstbook.repository.book;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
-import org.example.jvspringbootfirstbook.dto.BookSearchParametersDto;
+import org.example.jvspringbootfirstbook.dto.book.BookSearchParametersDto;
 import org.example.jvspringbootfirstbook.model.Book;
 import org.example.jvspringbootfirstbook.repository.SpecificationBuilder;
 import org.example.jvspringbootfirstbook.repository.SpecificationProviderManager;

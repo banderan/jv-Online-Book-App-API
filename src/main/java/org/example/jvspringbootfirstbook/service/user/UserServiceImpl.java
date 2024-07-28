@@ -1,8 +1,8 @@
 package org.example.jvspringbootfirstbook.service.user;
 
 import lombok.RequiredArgsConstructor;
-import org.example.jvspringbootfirstbook.dto.UserRegistrationRequestDto;
-import org.example.jvspringbootfirstbook.dto.UserResponseDto;
+import org.example.jvspringbootfirstbook.dto.user.UserRegistrationRequestDto;
+import org.example.jvspringbootfirstbook.dto.user.UserResponseDto;
 import org.example.jvspringbootfirstbook.exception.RegistrationException;
 import org.example.jvspringbootfirstbook.mapper.UserMapper;
 import org.example.jvspringbootfirstbook.model.User;
