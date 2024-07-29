@@ -2,9 +2,9 @@ package org.example.jvspringbootfirstbook.service.book;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.example.jvspringbootfirstbook.dto.BookDto;
-import org.example.jvspringbootfirstbook.dto.BookSearchParametersDto;
-import org.example.jvspringbootfirstbook.dto.CreateBookRequestDto;
+import org.example.jvspringbootfirstbook.dto.book.BookDto;
+import org.example.jvspringbootfirstbook.dto.book.BookSearchParametersDto;
+import org.example.jvspringbootfirstbook.dto.book.CreateBookRequestDto;
 import org.example.jvspringbootfirstbook.exception.EntityNotFoundException;
 import org.example.jvspringbootfirstbook.mapper.BooksMapper;
 import org.example.jvspringbootfirstbook.model.Book;
@@ -48,10 +48,12 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookDto update(Long id, CreateBookRequestDto createBookRequestDto) {
-        Book model = bookMapping.toModel(createBookRequestDto);
-        model.setId(id);
-        bookRepository.updateBookById(id, model);
-        return bookMapping.toBookDto(model);
+        if (!bookRepository.findById(id).isPresent()) {
+            throw new EntityNotFoundException("Can't find book with id: " + id);
+        }
+        Book book = bookMapping.toModel(createBookRequestDto);
+        book.setId(id);
+        return bookMapping.toBookDto(bookRepository.save(book));
     }
 
     @Override

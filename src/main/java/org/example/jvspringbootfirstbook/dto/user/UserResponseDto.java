@@ -1,4 +1,4 @@
-package org.example.jvspringbootfirstbook.dto;
+package org.example.jvspringbootfirstbook.dto.user;
 
 import lombok.Data;
 

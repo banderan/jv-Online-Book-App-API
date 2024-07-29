@@ -1,4 +1,4 @@
-package org.example.jvspringbootfirstbook.dto;
+package org.example.jvspringbootfirstbook.dto.user;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

@@ -1,0 +1,39 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-initial-user
+      author: bw
+      changes:
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  value: 1
+              - column:
+                  name: email
+                  value: admin@admin.com
+              - column:
+                  name: password
+                  value: $2a$10$PIwbKedtYSd2r7zZCG6Z6.MNNKC/l4mF3r..ActhOb1v.YpWWBhO2
+              - column:
+                  name: first_name
+                  value: Bartosz
+              - column:
+                  name: last_name
+                  value: Wojcik
+              - column:
+                  name: shipping_address
+                  value: Warszawa
+              - column:
+                  name: is_deleted
+                  valueBoolean: false
+
+        - insert:
+            tableName: user_roles
+            columns:
+              - column:
+                  name: user_id
+                  value: 1
+              - column:
+                  name: role_id
+                  value: 2

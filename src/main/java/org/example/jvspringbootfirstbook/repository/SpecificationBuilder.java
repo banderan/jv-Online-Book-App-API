@@ -1,6 +1,6 @@
 package org.example.jvspringbootfirstbook.repository;
 
-import org.example.jvspringbootfirstbook.dto.BookSearchParametersDto;
+import org.example.jvspringbootfirstbook.dto.book.BookSearchParametersDto;
 import org.springframework.data.jpa.domain.Specification;
 
 public interface SpecificationBuilder<T> {
