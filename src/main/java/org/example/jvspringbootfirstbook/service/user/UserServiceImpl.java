@@ -1,8 +1,8 @@
 package org.example.jvspringbootfirstbook.service.user;
 
 import lombok.RequiredArgsConstructor;
-import org.example.jvspringbootfirstbook.dto.user.UserRegistrationRequestDto;
-import org.example.jvspringbootfirstbook.dto.user.UserResponseDto;
+import org.example.jvspringbootfirstbook.dto.user.register.UserRegistrationRequestDto;
+import org.example.jvspringbootfirstbook.dto.user.register.UserRegistrationResponseDto;
 import org.example.jvspringbootfirstbook.exception.RegistrationException;
 import org.example.jvspringbootfirstbook.mapper.UserMapper;
 import org.example.jvspringbootfirstbook.model.User;
@@ -18,7 +18,7 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
 
     @Override
-    public UserResponseDto register(UserRegistrationRequestDto request) {
+    public UserRegistrationResponseDto register(UserRegistrationRequestDto request) {
         checkIfUserExists(request.getEmail());
         User user = userMapper.toModel(request);
         user.setPassword(passwordEncoder.encode(user.getPassword()));

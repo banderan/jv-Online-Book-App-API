@@ -1,9 +1,9 @@
-package org.example.jvspringbootfirstbook.dto.user;
+package org.example.jvspringbootfirstbook.dto.user.register;
 
 import lombok.Data;
 
 @Data
-public class UserResponseDto {
+public class UserRegistrationResponseDto {
     private Long id;
     private String email;
     private String firstName;
