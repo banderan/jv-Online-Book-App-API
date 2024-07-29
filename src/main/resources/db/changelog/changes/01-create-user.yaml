@@ -14,7 +14,7 @@ databaseChangeLog:
                   value: admin@admin.com
               - column:
                   name: password
-                  value: $2a$10$7Q9m9W8GhQ/eyq2R8AOG1ONHAsbkXzGzw6VbRzld7.TZbJ8eOv66.
+                  value: $2a$10$PIwbKedtYSd2r7zZCG6Z6.MNNKC/l4mF3r..ActhOb1v.YpWWBhO2
               - column:
                   name: first_name
                   value: Bartosz

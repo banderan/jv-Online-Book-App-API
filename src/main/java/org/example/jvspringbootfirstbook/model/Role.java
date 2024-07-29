@@ -14,6 +14,10 @@ public class Role {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, unique = true)
     private RoleName name;
+
+    public String getNameinString() {
+        return name.toString();
+    }
 }
 
 enum RoleName {
