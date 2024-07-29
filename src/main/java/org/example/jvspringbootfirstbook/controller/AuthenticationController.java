@@ -9,7 +9,6 @@ import org.example.jvspringbootfirstbook.dto.user.register.UserRegistrationRespo
 import org.example.jvspringbootfirstbook.exception.RegistrationException;
 import org.example.jvspringbootfirstbook.security.token.AuthenticationService;
 import org.example.jvspringbootfirstbook.service.user.UserService;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
