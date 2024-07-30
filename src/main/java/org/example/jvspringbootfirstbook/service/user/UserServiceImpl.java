@@ -1,5 +1,6 @@
 package org.example.jvspringbootfirstbook.service.user;
 
+import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.example.jvspringbootfirstbook.dto.user.register.UserRegistrationRequestDto;
 import org.example.jvspringbootfirstbook.dto.user.register.UserRegistrationResponseDto;
@@ -11,8 +12,6 @@ import org.example.jvspringbootfirstbook.model.User;
 import org.example.jvspringbootfirstbook.repository.user.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
