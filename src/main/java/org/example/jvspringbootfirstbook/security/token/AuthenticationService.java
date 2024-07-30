@@ -21,9 +21,7 @@ public class AuthenticationService {
                         requestDto.password()
                 )
         );
-
         String token = jwtUtil.generateToken(authenticate.getName());
-
         return new UserLoginResponseDto(token);
     }
 }
