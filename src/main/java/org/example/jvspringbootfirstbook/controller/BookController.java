@@ -3,24 +3,17 @@ package org.example.jvspringbootfirstbook.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.example.jvspringbootfirstbook.dto.book.BookDto;
+import org.example.jvspringbootfirstbook.dto.book.BookDtoWithoutCategoryIds;
 import org.example.jvspringbootfirstbook.dto.book.BookSearchParametersDto;
 import org.example.jvspringbootfirstbook.dto.book.CreateBookRequestDto;
 import org.example.jvspringbootfirstbook.service.book.BookService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Tag(name = "Book management",
         description = "Endpoints for managing books")
@@ -34,7 +27,7 @@ public class BookController {
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @Operation(summary = "Get all books",
             description = "get a list of all available books")
-    public List<BookDto> getAll(Pageable pageable) {
+    public List<BookDtoWithoutCategoryIds> getAll(Pageable pageable) {
         return bookService.findAll(pageable);
     }
 
@@ -42,7 +35,7 @@ public class BookController {
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @Operation(summary = "Get a book by id",
             description = "get book with your id")
-    public BookDto getBookById(@PathVariable Long id) {
+    public BookDtoWithoutCategoryIds getBookById(@PathVariable Long id) {
         return bookService.findById(id);
     }
 
@@ -50,8 +43,8 @@ public class BookController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Operation(summary = "Create book",
             description = "create new book")
-    public BookDto createBook(@RequestBody @Valid
-                              CreateBookRequestDto createBookRequestDto) {
+    public BookDtoWithoutCategoryIds createBook(@RequestBody @Valid
+                                                CreateBookRequestDto createBookRequestDto) {
         return bookService.save(createBookRequestDto);
     }
 
@@ -59,8 +52,8 @@ public class BookController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Operation(summary = "Update book",
             description = "update book with your id")
-    public BookDto updateBookById(@PathVariable Long id, @RequestBody @Valid
-                              CreateBookRequestDto createBookRequestDto) {
+    public BookDtoWithoutCategoryIds updateBookById(@PathVariable Long id, @RequestBody @Valid
+    CreateBookRequestDto createBookRequestDto) {
         return bookService.update(id, createBookRequestDto);
     }
 
@@ -71,8 +64,8 @@ public class BookController {
                     + " title, author, isbn"
                     + "|| remember to delete square brackets in searchParameters "
                     + "and \"sort\":\"string\" in pageable")
-    public List<BookDto> searchBooks(BookSearchParametersDto searchParameters,
-                                     Pageable pageable) {
+    public List<BookDtoWithoutCategoryIds> searchBooks(BookSearchParametersDto searchParameters,
+                                                       Pageable pageable) {
         return bookService.searchBooks(searchParameters, pageable);
     }
 
