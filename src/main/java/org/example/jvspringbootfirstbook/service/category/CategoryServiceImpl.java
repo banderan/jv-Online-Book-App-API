@@ -1,5 +1,6 @@
 package org.example.jvspringbootfirstbook.service.category;
 
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.example.jvspringbootfirstbook.dto.category.CategoryDto;
 import org.example.jvspringbootfirstbook.dto.category.CreateCategoryRequestDto;
@@ -9,8 +10,6 @@ import org.example.jvspringbootfirstbook.model.Category;
 import org.example.jvspringbootfirstbook.repository.category.CategoryRepository;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
