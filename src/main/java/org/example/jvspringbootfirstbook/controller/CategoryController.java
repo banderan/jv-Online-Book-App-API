@@ -36,7 +36,8 @@ public class CategoryController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Operation(summary = "Create category",
             description = "create new category")
-    public CategoryDto createCategory(CreateCategoryRequestDto categoryDto) {
+    public CategoryDto createCategory(@RequestBody @Valid
+                                          CreateCategoryRequestDto categoryDto) {
         return categoryService.save(categoryDto);
     }
 
@@ -78,8 +79,9 @@ public class CategoryController {
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @Operation(summary = "Get a book by category id",
             description = "get book with your category id")
-    public List<BookDtoWithoutCategoryIds> getBooksByCategoryId(@PathVariable Long id) {
-        return bookService.findByCategoryId(id);//return Dto with Category id to see if it works
+    public List<BookDtoWithoutCategoryIds> getBooksByCategoryId(
+            @PathVariable Long id, Pageable pageable) {
+        return bookService.findByCategoryId(id, pageable);
     }
 
 }

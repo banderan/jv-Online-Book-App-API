@@ -20,7 +20,6 @@ public record CreateBookRequestDto(
         String description,
         @NotBlank
         String coverImage,
-        @NotNull
         Set<Long> categoriesId
 ) {
 }

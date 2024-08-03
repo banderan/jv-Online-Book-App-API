@@ -79,8 +79,8 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<BookDtoWithoutCategoryIds> findByCategoryId(Long id) {
-        List<Book> allByCategoriesId = bookRepository.findAllByCategoriesId(id);
+    public List<BookDtoWithoutCategoryIds> findByCategoryId(Long id, Pageable pageable) {
+        List<Book> allByCategoriesId = bookRepository.findAllByCategoriesId(id, pageable);
         if (allByCategoriesId.isEmpty()) {
             throw new EntityNotFoundException("Can't find book with id: " + id);
         }

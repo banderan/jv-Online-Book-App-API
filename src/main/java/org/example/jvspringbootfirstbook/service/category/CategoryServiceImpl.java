@@ -40,7 +40,9 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryDto update(Long id, CreateCategoryRequestDto categoryDto) {
+    public CategoryDto update(
+            Long id,
+            CreateCategoryRequestDto categoryDto) {
         if (!categoryRepository.findById(id).isPresent()) {
             throw new EntityNotFoundException("Category with id " + id + " not found");
         }
