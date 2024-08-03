@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.example.jvspringbootfirstbook.dto.book.BookDto;
 import org.example.jvspringbootfirstbook.dto.book.BookDtoWithoutCategoryIds;
 import org.example.jvspringbootfirstbook.dto.book.BookSearchParametersDto;
 import org.example.jvspringbootfirstbook.dto.book.CreateBookRequestDto;
@@ -38,15 +39,15 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<BookDtoWithoutCategoryIds> findAll(Pageable pageable) {
+    public List<BookDto> findAll(Pageable pageable) {
         return bookRepository.findAll(pageable).stream()
-                .map(bookMapping::toDtoWithoutCategoryIds)
+                .map(bookMapping::toDto)
                 .toList();
     }
 
     @Override
-    public BookDtoWithoutCategoryIds findById(Long id) {
-        return bookMapping.toDtoWithoutCategoryIds(
+    public BookDto findById(Long id) {
+        return bookMapping.toDto(
                 bookRepository.findById(id).orElseThrow(
                         () -> new EntityNotFoundException("Can't find book with id: " + id)));
     }
@@ -57,7 +58,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public BookDtoWithoutCategoryIds update(
+    public BookDto update(
             Long id,
             CreateBookRequestDto createBookRequestDto) {
         if (!bookRepository.findById(id).isPresent()) {
@@ -65,7 +66,7 @@ public class BookServiceImpl implements BookService {
         }
         Book book = bookMapping.toEntity(createBookRequestDto);
         book.setId(id);
-        return bookMapping.toDtoWithoutCategoryIds(bookRepository.save(book));
+        return bookMapping.toDto(bookRepository.save(book));
     }
 
     @Override

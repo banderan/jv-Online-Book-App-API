@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.example.jvspringbootfirstbook.dto.book.BookDto;
 import org.example.jvspringbootfirstbook.dto.book.BookDtoWithoutCategoryIds;
 import org.example.jvspringbootfirstbook.dto.book.BookSearchParametersDto;
 import org.example.jvspringbootfirstbook.dto.book.CreateBookRequestDto;
@@ -34,7 +35,7 @@ public class BookController {
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @Operation(summary = "Get all books",
             description = "get a list of all available books")
-    public List<BookDtoWithoutCategoryIds> getAll(Pageable pageable) {
+    public List<BookDto> getAll(Pageable pageable) {
         return bookService.findAll(pageable);
     }
 
@@ -42,7 +43,7 @@ public class BookController {
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @Operation(summary = "Get a book by id",
             description = "get book with your id")
-    public BookDtoWithoutCategoryIds getBookById(@PathVariable Long id) {
+    public BookDto getBookById(@PathVariable Long id) {
         return bookService.findById(id);
     }
 
@@ -59,7 +60,7 @@ public class BookController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Operation(summary = "Update book",
             description = "update book with your id")
-    public BookDtoWithoutCategoryIds updateBookById(@PathVariable Long id, @RequestBody @Valid
+    public BookDto updateBookById(@PathVariable Long id, @RequestBody @Valid
             CreateBookRequestDto createBookRequestDto) {
         return bookService.update(id, createBookRequestDto);
     }
