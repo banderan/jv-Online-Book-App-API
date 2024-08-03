@@ -1,7 +1,6 @@
 package org.example.jvspringbootfirstbook.service.book;
 
 import java.util.List;
-
 import org.example.jvspringbootfirstbook.dto.book.BookDto;
 import org.example.jvspringbootfirstbook.dto.book.BookDtoWithoutCategoryIds;
 import org.example.jvspringbootfirstbook.dto.book.BookSearchParametersDto;
