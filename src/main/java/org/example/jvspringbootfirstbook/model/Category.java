@@ -2,8 +2,6 @@ package org.example.jvspringbootfirstbook.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -16,18 +14,15 @@ import org.hibernate.annotations.Where;
 @Data
 @SQLDelete(sql = "UPDATE books SET is_deleted = true WHERE id = ?")
 @Where(clause = "is_deleted = false")
-@Table(name = "roles")
-public class Role {
+@Table(name = "categories")
+public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false, unique = true)
-    private RoleName name;
-    @Column(name = "is_deleted")
+    @Column(nullable = false)
+    private String name;
+    private String description;
+    @Column(name = "is_deleted",nullable = false)
     private boolean isDeleted;
 
-    public String getNameinString() {
-        return name.toString();
-    }
 }

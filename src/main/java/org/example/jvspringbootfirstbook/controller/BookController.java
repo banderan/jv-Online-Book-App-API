@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.example.jvspringbootfirstbook.dto.book.BookDto;
+import org.example.jvspringbootfirstbook.dto.book.BookDtoWithoutCategoryIds;
 import org.example.jvspringbootfirstbook.dto.book.BookSearchParametersDto;
 import org.example.jvspringbootfirstbook.dto.book.CreateBookRequestDto;
 import org.example.jvspringbootfirstbook.service.book.BookService;
@@ -50,8 +51,8 @@ public class BookController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Operation(summary = "Create book",
             description = "create new book")
-    public BookDto createBook(@RequestBody @Valid
-                              CreateBookRequestDto createBookRequestDto) {
+    public BookDtoWithoutCategoryIds createBook(@RequestBody @Valid
+                                                CreateBookRequestDto createBookRequestDto) {
         return bookService.save(createBookRequestDto);
     }
 
@@ -60,7 +61,7 @@ public class BookController {
     @Operation(summary = "Update book",
             description = "update book with your id")
     public BookDto updateBookById(@PathVariable Long id, @RequestBody @Valid
-                              CreateBookRequestDto createBookRequestDto) {
+            CreateBookRequestDto createBookRequestDto) {
         return bookService.update(id, createBookRequestDto);
     }
 
@@ -71,8 +72,8 @@ public class BookController {
                     + " title, author, isbn"
                     + "|| remember to delete square brackets in searchParameters "
                     + "and \"sort\":\"string\" in pageable")
-    public List<BookDto> searchBooks(BookSearchParametersDto searchParameters,
-                                     Pageable pageable) {
+    public List<BookDtoWithoutCategoryIds> searchBooks(BookSearchParametersDto searchParameters,
+                                                       Pageable pageable) {
         return bookService.searchBooks(searchParameters, pageable);
     }
 
