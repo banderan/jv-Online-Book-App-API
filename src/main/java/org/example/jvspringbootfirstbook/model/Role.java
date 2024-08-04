@@ -24,7 +24,7 @@ public class Role {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, unique = true)
     private RoleName name;
-    @Column(name = "is_deleted")
+    @Column(name = "is_deleted",nullable = false)
     private boolean isDeleted;
 
     public String getNameinString() {
