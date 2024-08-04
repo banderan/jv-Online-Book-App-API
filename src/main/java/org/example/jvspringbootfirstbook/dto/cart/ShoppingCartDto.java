@@ -1,9 +1,8 @@
 package org.example.jvspringbootfirstbook.dto.cart;
 
+import java.util.Set;
 import lombok.Data;
 import org.example.jvspringbootfirstbook.model.CartItem;
-
-import java.util.Set;
 
 @Data
 public class ShoppingCartDto {

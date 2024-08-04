@@ -12,7 +12,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "Shopping cart management",
         description = "Endpoints for managing shopping cart")
@@ -37,18 +45,18 @@ public class ShoppingCartController {
             description = "create new item and add to user cart")
     public ShoppingCartDto addItemToUserCart(Authentication authentication,
                                              @RequestBody Long bookId,
-                                             @RequestBody @Valid CartItemRequestDto cartItemRequestDto) {
+                                             @RequestBody @Valid CartItemRequestDto requestDto) {
         User principal = (User) authentication.getPrincipal();
-        return shoppingCartService.addItem(principal,bookId ,cartItemRequestDto);
+        return shoppingCartService.addItem(principal, bookId, requestDto);
     }
 
     @PutMapping("/cart-items/{id}")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @Operation(summary = "Update item",
             description = "update item in user cart with your id")
-    public ShoppingCartDto updateItemInCart(@RequestBody @Valid CartItemRequestDto cartItemRequestDto,
+    public ShoppingCartDto updateItemInCart(@RequestBody @Valid CartItemRequestDto requestDto,
                                             @PathVariable Long id) {
-        return shoppingCartService.update(id, cartItemRequestDto);
+        return shoppingCartService.update(id, requestDto);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
