@@ -1,16 +1,17 @@
 package org.example.jvspringbootfirstbook.service.cart;
 
+import org.example.jvspringbootfirstbook.dto.cart.CartItemDto;
 import org.example.jvspringbootfirstbook.dto.cart.CartItemRequestDto;
+import org.example.jvspringbootfirstbook.dto.cart.CartItemUpdatedDto;
 import org.example.jvspringbootfirstbook.dto.cart.ShoppingCartDto;
 import org.example.jvspringbootfirstbook.model.User;
-import org.springframework.data.domain.Pageable;
 
 public interface ShoppingCartService {
-    ShoppingCartDto findUserCart(User user, Pageable pageable);
+    ShoppingCartDto findUserCart(User user);
 
-    ShoppingCartDto addItem(User user, Long bookId, CartItemRequestDto cartItemRequestDto);
+    ShoppingCartDto addItem(User user, CartItemRequestDto cartItemRequestDto);
 
-    ShoppingCartDto update(Long itemId, CartItemRequestDto cartItemRequestDto);
+    CartItemDto update(Long itemId, CartItemUpdatedDto updatedDto);
 
-    void deleteById(User user, Long itemId);
+    void deleteById(Long itemId);
 }

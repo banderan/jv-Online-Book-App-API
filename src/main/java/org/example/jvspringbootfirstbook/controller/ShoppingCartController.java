@@ -4,11 +4,12 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.example.jvspringbootfirstbook.dto.cart.CartItemDto;
 import org.example.jvspringbootfirstbook.dto.cart.CartItemRequestDto;
+import org.example.jvspringbootfirstbook.dto.cart.CartItemUpdatedDto;
 import org.example.jvspringbootfirstbook.dto.cart.ShoppingCartDto;
 import org.example.jvspringbootfirstbook.model.User;
 import org.example.jvspringbootfirstbook.service.cart.ShoppingCartService;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -34,9 +35,9 @@ public class ShoppingCartController {
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @Operation(summary = "Get user Cart",
             description = "get a cart your user")
-    public ShoppingCartDto getUserCart(Authentication authentication, Pageable pageable) {
+    public ShoppingCartDto getUserCart(Authentication authentication) {
         User principal = (User) authentication.getPrincipal();
-        return shoppingCartService.findUserCart(principal, pageable);
+        return shoppingCartService.findUserCart(principal);
     }
 
     @PostMapping
@@ -44,19 +45,18 @@ public class ShoppingCartController {
     @Operation(summary = "adding item to user cart",
             description = "create new item and add to user cart")
     public ShoppingCartDto addItemToUserCart(Authentication authentication,
-                                             @RequestBody Long bookId,
                                              @RequestBody @Valid CartItemRequestDto requestDto) {
         User principal = (User) authentication.getPrincipal();
-        return shoppingCartService.addItem(principal, bookId, requestDto);
+        return shoppingCartService.addItem(principal, requestDto);
     }
 
     @PutMapping("/cart-items/{id}")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @Operation(summary = "Update item",
             description = "update item in user cart with your id")
-    public ShoppingCartDto updateItemInCart(@RequestBody @Valid CartItemRequestDto requestDto,
-                                            @PathVariable Long id) {
-        return shoppingCartService.update(id, requestDto);
+    public CartItemDto updateItemInCart(@RequestBody @Valid CartItemUpdatedDto updatedDto,
+                                        @PathVariable Long id) {
+        return shoppingCartService.update(id, updatedDto);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -64,8 +64,7 @@ public class ShoppingCartController {
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @Operation(summary = "Delete item ",
             description = "delete item from cart with your id")
-    public void deleteItemFromCart(Authentication authentication, @PathVariable Long id) {
-        User principal = (User) authentication.getPrincipal();
-        shoppingCartService.deleteById(principal, id);
+    public void deleteItemFromCart(@PathVariable Long id) {
+        shoppingCartService.deleteById(id);
     }
 }
