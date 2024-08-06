@@ -1,11 +1,10 @@
 package org.example.jvspringbootfirstbook.dto.cart;
 
 import java.util.Set;
-import lombok.Data;
 
-@Data
-public class ShoppingCartDto {
-    private Long id;
-    private Long userId;
-    private Set<CartItemDto> cartItems;
+public record ShoppingCartDto(
+        Long id,
+        Long userId,
+        Set<CartItemDto> cartItems
+) {
 }

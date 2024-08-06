@@ -46,8 +46,8 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     @Override
-    public CartItemDto update(Long itemId,
-                              CartItemUpdatedDto updatedDto) {
+    public CartItemDto updateItemQuantity(Long itemId,
+                                          CartItemUpdatedDto updatedDto) {
         CartItem cartItem = cartItemRepository.findById(itemId).orElseThrow(
                 () -> new EntityNotFoundException("Item not found"
                         + " with item id: " + itemId)

@@ -56,7 +56,7 @@ public class ShoppingCartController {
             description = "update item in user cart with your id")
     public CartItemDto updateItemInCart(@RequestBody @Valid CartItemUpdatedDto updatedDto,
                                         @PathVariable Long id) {
-        return shoppingCartService.update(id, updatedDto);
+        return shoppingCartService.updateItemQuantity(id, updatedDto);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
