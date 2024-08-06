@@ -12,6 +12,7 @@ import org.example.jvspringbootfirstbook.mapper.ShoppingCartMapper;
 import org.example.jvspringbootfirstbook.model.CartItem;
 import org.example.jvspringbootfirstbook.model.ShoppingCart;
 import org.example.jvspringbootfirstbook.model.User;
+import org.example.jvspringbootfirstbook.repository.book.BookRepository;
 import org.example.jvspringbootfirstbook.repository.cart.CartItemRepository;
 import org.example.jvspringbootfirstbook.repository.cart.ShoppingCartRepository;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     private final ShoppingCartMapper shoppingCartMapper;
     private final CartItemRepository cartItemRepository;
     private final CartItemMapper cartItemMapper;
+    private final BookRepository bookRepository;
 
     @Override
     public ShoppingCartDto findUserCart(User user) {
@@ -33,6 +35,8 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     @Override
     public ShoppingCartDto addItem(User user, CartItemRequestDto cartItemRequestDto) {
         CartItem item = cartItemMapper.toModel(cartItemRequestDto);
+        item.setBook(bookRepository.findById(item.getBook().getId())
+                .orElseThrow(EntityNotFoundException::new));
         ShoppingCart cart = shoppingCartRepository.findShoppingCartByUser(user);
         item.setShoppingCart(cart);
         Set<CartItem> cartItems = cart.getCartItems();
