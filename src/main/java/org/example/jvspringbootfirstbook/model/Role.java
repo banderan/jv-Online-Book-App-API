@@ -14,7 +14,7 @@ import org.hibernate.annotations.Where;
 
 @Entity
 @Data
-@SQLDelete(sql = "UPDATE books SET is_deleted = true WHERE id = ?")
+@SQLDelete(sql = "UPDATE roles SET is_deleted = true WHERE id = ?")
 @Where(clause = "is_deleted = false")
 @Table(name = "roles")
 public class Role {
@@ -24,7 +24,7 @@ public class Role {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, unique = true)
     private RoleName name;
-    @Column(name = "is_deleted")
+    @Column(name = "is_deleted",nullable = false)
     private boolean isDeleted;
 
     public String getNameinString() {

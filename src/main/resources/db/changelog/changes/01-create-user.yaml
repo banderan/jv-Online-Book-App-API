@@ -17,13 +17,13 @@ databaseChangeLog:
                   value: $2a$10$044/AAPnRxl8RTOnygppTurUOzZOIhIUFtHgbJ1s661Q7NGrcnyji
               - column:
                   name: first_name
-                  value: Bartosz
+                  value: password
               - column:
                   name: last_name
-                  value: Wojcik
+                  value: password=password
               - column:
                   name: shipping_address
-                  value: Warszawa
+                  value: password
               - column:
                   name: is_deleted
                   valueBoolean: false

@@ -38,7 +38,7 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String lastName;
     private String shippingAddress;
-    @Column(name = "is_deleted")
+    @Column(name = "is_deleted",nullable = false)
     private boolean isDeleted;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
