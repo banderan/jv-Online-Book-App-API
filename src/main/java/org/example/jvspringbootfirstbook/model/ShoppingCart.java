@@ -2,6 +2,7 @@ package org.example.jvspringbootfirstbook.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -28,10 +29,8 @@ public class ShoppingCart {
     @OneToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
-    @OneToMany(mappedBy = "shoppingCart")
-    @Cascade(value = {CascadeType.PERSIST,
-            CascadeType.MERGE,
-            CascadeType.REMOVE})
+    @OneToMany(mappedBy = "shoppingCart", fetch = FetchType.LAZY)
+    @Cascade(value = {CascadeType.ALL})
     private Set<CartItem> cartItems;
     @Column(name = "is_deleted", nullable = false)
     private boolean isDeleted;

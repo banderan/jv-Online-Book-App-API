@@ -15,5 +15,5 @@ public interface CartItemMapper {
 
     @Mapping(target = "book", source = "bookId",
             qualifiedByName = "bookFromId")
-    CartItem toModelFromRequest(CartItemRequestDto cartItemRequestDto);
+    CartItem toModel(CartItemRequestDto cartItemRequestDto);
 }

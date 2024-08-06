@@ -26,21 +26,19 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Override
     public ShoppingCartDto findUserCart(User user) {
-        return shoppingCartMapper.toDto(shoppingCartRepository.findShoppingCartByUserId(
-                user.getId()
-        ));
+        return shoppingCartMapper.toDto(shoppingCartRepository
+                .findShoppingCartByUser(user));
     }
 
     @Override
     public ShoppingCartDto addItem(User user, CartItemRequestDto cartItemRequestDto) {
-        ShoppingCart cart = shoppingCartRepository.findShoppingCartByUserId(user.getId());
-        CartItem cartItem = cartItemMapper.toModelFromRequest(cartItemRequestDto);
-        cartItem.setShoppingCart(cart);
-        CartItem save = cartItemRepository.save(cartItem);
+        CartItem item = cartItemMapper.toModel(cartItemRequestDto);
+        ShoppingCart cart = shoppingCartRepository.findShoppingCartByUser(user);
+        item.setShoppingCart(cart);
         Set<CartItem> cartItems = cart.getCartItems();
-        cartItems.add(save);
+        cartItems.add(item);
         cart.setCartItems(cartItems);
-        return shoppingCartMapper.toDto(cart);
+        return shoppingCartMapper.toDto(shoppingCartRepository.save(cart));
     }
 
     @Override
