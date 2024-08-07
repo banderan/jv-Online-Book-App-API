@@ -1,5 +1,11 @@
 package org.example.jvspringbootfirstbook.service.order;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.example.jvspringbootfirstbook.dto.order.OrderDto;
 import org.example.jvspringbootfirstbook.dto.order.OrderItemDto;
@@ -7,20 +13,18 @@ import org.example.jvspringbootfirstbook.dto.order.PlacingOrderRequestDto;
 import org.example.jvspringbootfirstbook.exception.EntityNotFoundException;
 import org.example.jvspringbootfirstbook.mapper.OrderItemMapper;
 import org.example.jvspringbootfirstbook.mapper.OrderMapper;
-import org.example.jvspringbootfirstbook.model.*;
+import org.example.jvspringbootfirstbook.model.CartItem;
+import org.example.jvspringbootfirstbook.model.Order;
+import org.example.jvspringbootfirstbook.model.OrderItem;
+import org.example.jvspringbootfirstbook.model.ShoppingCart;
+import org.example.jvspringbootfirstbook.model.Status;
+import org.example.jvspringbootfirstbook.model.User;
 import org.example.jvspringbootfirstbook.repository.cart.ShoppingCartRepository;
 import org.example.jvspringbootfirstbook.repository.order.OrderItemRepository;
 import org.example.jvspringbootfirstbook.repository.order.OrderRepository;
 import org.example.jvspringbootfirstbook.repository.user.UserRepository;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -116,9 +120,21 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderItemDto getFromOrder(Long orderId, Long id) {
-        List<OrderItemDto> fromOrder = getFromOrder(orderId);
-        String fromLong = Long.toString(id);
-        return fromOrder.get(Integer.parseInt(fromLong));
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(
+                        () -> new EntityNotFoundException(
+                                "We don't have order with this id: " + orderId)
+                );
+        Set<OrderItem> orderItems = order.getOrderItems();
+        OrderItem orderItem = orderItems.stream()
+                .filter(item -> item.getId().equals(id))
+                .findFirst()
+                .orElseThrow(
+                        () -> new EntityNotFoundException(
+                                "We can't find order Item with this id"
+                        )
+                );
+        return orderItemMapper.toDto(orderItem);
     }
 
     @Override
