@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  mysqldb:
+    image: mysql
+    restart: unless-stopped
+    env_file: ./.env
+    ports:
+      - "${MYSQLDB_DOCKER_PORT}:${MYSQLDB_LOCAL_PORT}"
+    environment:
+      MYSQL_DATABASE: ${MYSQLDB_DATABASE}
+      MYSQL_USER: ${MYSQLDB_USER}
+      MYSQL_PASSWORD: ${MYSQLDB_ROOT_PASSWORD}
+
+  app:
+    depends_on:
+      - mysqldb
+    restart: on-failure
+    image: test
+    build: .
+    env_file: ./.env
+    ports:
+      - "${SPRING_DOCKER_PORT}:${SPRING_LOCAL_PORT}"
+      - "${DEBUG_PORT}:${DEBUG_PORT}"
+    environment:
+      spring.datasource.url: jdbc:mysql://mysqldb/${MYSQLDB_DATABASE}
+      spring.datasource.username: ${MYSQLDB_USER}
+      spring.datasource.password: ${MYSQLDB_ROOT_PASSWORD}
+      JAVA_TOOL_OPTIONS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:${DEBUG_PORT}"
