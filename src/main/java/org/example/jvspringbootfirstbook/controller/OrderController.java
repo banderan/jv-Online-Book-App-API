@@ -38,7 +38,7 @@ public class OrderController {
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @Operation(summary = "get order history",
             description = "get your all orders")
-    public List<OrderDto> showOrderHistory(Authentication authentication, Pageable pageable) {
+    public List<OrderDto> getOrderHistory(Authentication authentication, Pageable pageable) {
         User user = (User) authentication.getPrincipal();
         return orderService.getHistory(user, pageable);
     }
@@ -56,7 +56,7 @@ public class OrderController {
     @Operation(summary = "get one item",
             description = "get one item from your order")
     public OrderItemDto getOneItemFromOrder(@PathVariable Long orderId, @PathVariable Long id) {
-        return orderService.getFromOrder(orderId,id);
+        return orderService.getFromOrder(orderId, id);
     }
 
     @PutMapping("/{id}")

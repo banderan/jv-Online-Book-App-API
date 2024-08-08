@@ -40,27 +40,33 @@ public class OrderServiceImpl implements OrderService {
     public OrderDto makeOrder(PlacingOrderRequestDto requestDto) {
         User user = userRepository.findByShippingAddress(requestDto.shippingAddress())
                 .orElseThrow(
-                        () -> new EntityNotFoundException("We don't have a shipping address")
+                        () -> new EntityNotFoundException("No user found for shipping address"
+                                + requestDto.shippingAddress())
                 );
-        Order emptyOrder = getEmptyOrder(requestDto, user);
+        Order newOrder = createEmptyOrder(requestDto, user);
 
+        Order orderWithItems = fillingOrderWithItems(user, newOrder);
+
+        return orderMapper.toDto(orderWithItems);
+    }
+
+    private Order fillingOrderWithItems(User user, Order newOrder) {
         ShoppingCart cart = shoppingCartRepository
                 .findShoppingCartByUser(user);
-        Set<OrderItem> orderItemSet = getOrderItemSet(cart, emptyOrder);
+        Set<OrderItem> orderItemSet = getOrderItemSet(cart, newOrder);
 
         Set<OrderItem> orderItemsWithPrice = calculatePriceForSet(orderItemSet);
-        emptyOrder.setOrderItems(orderItemsWithPrice);
+        newOrder.setOrderItems(orderItemsWithPrice);
 
         BigDecimal total = orderItemsWithPrice.stream()
                 .map(OrderItem::getPrice)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
-        emptyOrder.setTotal(total);
-
-        Order filledOrder = orderRepository.save(emptyOrder);
-        return orderMapper.toDto(filledOrder);
+        newOrder.setTotal(total);
+        Order save = orderRepository.save(newOrder);
+        return save;
     }
 
-    private Order getEmptyOrder(PlacingOrderRequestDto requestDto, User user) {
+    private Order createEmptyOrder(PlacingOrderRequestDto requestDto, User user) {
         Order order = new Order();
         order.setUser(user);
         order.setStatus(Status.PENDING);
@@ -108,11 +114,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<OrderItemDto> getFromOrder(Long orderId) {
-        Order order = orderRepository.findById(orderId)
-                .orElseThrow(
-                        () -> new EntityNotFoundException(
-                                "We don't have order with this id: " + orderId)
-                );
+        Order order = getOrderFromId(orderId);
         return order.getOrderItems().stream()
                 .map(orderItemMapper::toDto)
                 .toList();
@@ -120,21 +122,26 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderItemDto getFromOrder(Long orderId, Long id) {
-        Order order = orderRepository.findById(orderId)
-                .orElseThrow(
-                        () -> new EntityNotFoundException(
-                                "We don't have order with this id: " + orderId)
-                );
+        Order order = getOrderFromId(orderId);
         Set<OrderItem> orderItems = order.getOrderItems();
         OrderItem orderItem = orderItems.stream()
                 .filter(item -> item.getId().equals(id))
                 .findFirst()
                 .orElseThrow(
                         () -> new EntityNotFoundException(
-                                "We can't find order Item with this id"
+                                "Order item with id: " + id + " not found"
                         )
                 );
         return orderItemMapper.toDto(orderItem);
+    }
+
+    private Order getOrderFromId(Long orderId) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(
+                        () -> new EntityNotFoundException(
+                                "Order with id: " + orderId + " not found")
+                );
+        return order;
     }
 
     @Override
@@ -146,19 +153,21 @@ public class OrderServiceImpl implements OrderService {
                 .orElseThrow(
                         () -> new EntityNotFoundException("We don't have a order")
                 );
-        if (order.getStatus().equals(Status.PENDING)) {
-            order.setStatus(Status.DELIVERED);
-            return getDto(order);
-        } else if (order.getStatus().equals(Status.DELIVERED)) {
-            order.setStatus(Status.COMPLETED);
-            return getDto(order);
-        } else {
-            order.setDeleted(true);
-            return getDto(order);
+        switch (order.getStatus()) {
+            case PENDING:
+                order.setStatus(Status.DELIVERED);
+                break;
+            case DELIVERED:
+                order.setStatus(Status.COMPLETED);
+                break;
+            default:
+                order.setDeleted(true);
+                break;
         }
+        return saveAndMapToDto(order);
     }
 
-    private OrderDto getDto(Order order) {
+    private OrderDto saveAndMapToDto(Order order) {
         return orderMapper.toDto(orderRepository.save(order));
     }
 }

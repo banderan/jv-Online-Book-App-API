@@ -8,7 +8,6 @@ import org.example.jvspringbootfirstbook.model.User;
 import org.springframework.data.domain.Pageable;
 
 public interface OrderService {
-
     OrderDto makeOrder(PlacingOrderRequestDto requestDto);
 
     List<OrderDto> getHistory(User user, Pageable pageable);
