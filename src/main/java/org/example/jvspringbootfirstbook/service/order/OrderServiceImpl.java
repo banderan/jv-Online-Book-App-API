@@ -20,7 +20,6 @@ import org.example.jvspringbootfirstbook.model.ShoppingCart;
 import org.example.jvspringbootfirstbook.model.Status;
 import org.example.jvspringbootfirstbook.model.User;
 import org.example.jvspringbootfirstbook.repository.cart.ShoppingCartRepository;
-import org.example.jvspringbootfirstbook.repository.order.OrderItemRepository;
 import org.example.jvspringbootfirstbook.repository.order.OrderRepository;
 import org.example.jvspringbootfirstbook.repository.user.UserRepository;
 import org.springframework.data.domain.Pageable;
@@ -29,8 +28,9 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
+    public static final String MISSING_ORDER_MESSAGE = "Order with your id not found";
+    public static final String MISSING_ORDER_ITEM_MESSAGE = "Order item with your id not found";
     private final OrderRepository orderRepository;
-    private final OrderItemRepository orderItemRepository;
     private final UserRepository userRepository;
     private final ShoppingCartRepository shoppingCartRepository;
     private final OrderItemMapper orderItemMapper;
@@ -40,7 +40,7 @@ public class OrderServiceImpl implements OrderService {
     public OrderDto makeOrder(PlacingOrderRequestDto requestDto) {
         User user = userRepository.findByShippingAddress(requestDto.shippingAddress())
                 .orElseThrow(
-                        () -> new EntityNotFoundException("No user found for shipping address"
+                        () -> new EntityNotFoundException("No user found for shipping address "
                                 + requestDto.shippingAddress())
                 );
         Order newOrder = createEmptyOrder(requestDto, user);
@@ -129,7 +129,7 @@ public class OrderServiceImpl implements OrderService {
                 .findFirst()
                 .orElseThrow(
                         () -> new EntityNotFoundException(
-                                "Order item with id: " + id + " not found"
+                                MISSING_ORDER_ITEM_MESSAGE
                         )
                 );
         return orderItemMapper.toDto(orderItem);
@@ -146,12 +146,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderDto updateStatus(Long id) {
-        if (!orderRepository.findById(id).isPresent()) {
-            throw new EntityNotFoundException("We don't have a order");
-        }
         Order order = orderRepository.findById(id)
                 .orElseThrow(
-                        () -> new EntityNotFoundException("We don't have a order")
+                        () -> new EntityNotFoundException(MISSING_ORDER_MESSAGE)
                 );
         switch (order.getStatus()) {
             case PENDING:
