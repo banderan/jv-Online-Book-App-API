@@ -29,7 +29,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
     public static final String MISSING_ORDER_MESSAGE = "Order with your id not found, id: ";
-    public static final String MISSING_ORDER_ITEM_MESSAGE = "Order item with your id not found, id: ";
+    public static final String MISSING_ORDER_ITEM_MESSAGE
+            = "Order item with your id not found, id: ";
     private final OrderRepository orderRepository;
     private final UserRepository userRepository;
     private final ShoppingCartRepository shoppingCartRepository;
