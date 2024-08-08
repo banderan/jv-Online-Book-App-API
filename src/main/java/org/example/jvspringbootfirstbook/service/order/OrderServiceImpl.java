@@ -28,8 +28,8 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
-    public static final String MISSING_ORDER_MESSAGE = "Order with your id not found";
-    public static final String MISSING_ORDER_ITEM_MESSAGE = "Order item with your id not found";
+    public static final String MISSING_ORDER_MESSAGE = "Order with your id not found, id: ";
+    public static final String MISSING_ORDER_ITEM_MESSAGE = "Order item with your id not found, id: ";
     private final OrderRepository orderRepository;
     private final UserRepository userRepository;
     private final ShoppingCartRepository shoppingCartRepository;
@@ -129,7 +129,7 @@ public class OrderServiceImpl implements OrderService {
                 .findFirst()
                 .orElseThrow(
                         () -> new EntityNotFoundException(
-                                MISSING_ORDER_ITEM_MESSAGE
+                                MISSING_ORDER_ITEM_MESSAGE + id
                         )
                 );
         return orderItemMapper.toDto(orderItem);
@@ -139,7 +139,7 @@ public class OrderServiceImpl implements OrderService {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(
                         () -> new EntityNotFoundException(
-                                "Order with id: " + orderId + " not found")
+                                MISSING_ORDER_MESSAGE + orderId)
                 );
         return order;
     }
@@ -148,7 +148,7 @@ public class OrderServiceImpl implements OrderService {
     public OrderDto updateStatus(Long id) {
         Order order = orderRepository.findById(id)
                 .orElseThrow(
-                        () -> new EntityNotFoundException(MISSING_ORDER_MESSAGE)
+                        () -> new EntityNotFoundException(MISSING_ORDER_MESSAGE + id)
                 );
         switch (order.getStatus()) {
             case PENDING:
