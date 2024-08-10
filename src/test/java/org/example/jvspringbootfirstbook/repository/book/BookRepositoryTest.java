@@ -23,9 +23,9 @@ class BookRepositoryTest {
     @DisplayName("""
             Find all books by category id
             """)
-    @Sql(scripts = {"classpath:db/books/Add-book-to-books-table.sql"},
+    @Sql(scripts = {"classpath:db/books/repository/Add-book-to-books-table.sql"},
             executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @Sql(scripts = {"classpath:db/books/remove-book-from-books-table.sql"},
+    @Sql(scripts = {"classpath:db/books/repository/remove-book-from-books-table.sql"},
             executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void findAllByCategoriesId_OneCategoryBook_returnOneBookInList() {
         Long categoryId = 1L;

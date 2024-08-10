@@ -3,11 +3,13 @@ package org.example.jvspringbootfirstbook.service.book;
 import org.example.jvspringbootfirstbook.dto.book.BookDto;
 import org.example.jvspringbootfirstbook.dto.book.BookDtoWithoutCategoryIds;
 import org.example.jvspringbootfirstbook.dto.book.CreateBookRequestDto;
+import org.example.jvspringbootfirstbook.exception.EntityNotFoundException;
 import org.example.jvspringbootfirstbook.mapper.BooksMapper;
 import org.example.jvspringbootfirstbook.model.Book;
 import org.example.jvspringbootfirstbook.model.Category;
 import org.example.jvspringbootfirstbook.repository.book.BookRepository;
 import org.example.jvspringbootfirstbook.repository.category.CategoryRepository;
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -59,11 +61,7 @@ class BookServiceImplTest {
         Set<Long> categoriesId = new HashSet<>();
         categoriesId.add(categoryId);
 
-        Category category = new Category();
-        category.setId(categoryId);
-        category.setName("category");
-        category.setDescription(DESCRIPTION);
-        category.setDeleted(false);
+        Category category = getCategory(categoryId);
 
         Set<Category> categories = new HashSet<>();
         categories.add(category);
@@ -73,32 +71,20 @@ class BookServiceImplTest {
                 PRICE, DESCRIPTION,
                 COVER_IMAGE, categoriesId
         );
-        Book book = new Book();
-        book.setId(1L);
-        book.setTitle(requestDto.title());
-        book.setAuthor(requestDto.author());
-        book.setIsbn(requestDto.isbn());
-        book.setPrice(requestDto.price());
-        book.setDescription(requestDto.description());
-        book.setCoverImage(requestDto.coverImage());
+        Book book = getBook();
         book.setCategories(categories);
 
-        BookDtoWithoutCategoryIds withoutCategoryIds = new BookDtoWithoutCategoryIds(
-                book.getId(), book.getTitle(), book.getAuthor(),
-                book.getIsbn(), book.getPrice(), book.getDescription(),
-                book.getCoverImage()
-        );
+        BookDtoWithoutCategoryIds expected = getBookDtoWithoutCategoryIdsFromBook(book);
 
         when(bookMapping.toEntity(requestDto)).thenReturn(book);
         when(categoryRepository.findById(categoryId)).thenReturn(Optional.of(category));
         when(bookRepository.save(book)).thenReturn(book);
         when(bookMapping.toDtoWithoutCategoryIds(book)).thenReturn(
-                withoutCategoryIds
+                expected
         );
         //When
         BookDtoWithoutCategoryIds actual = bookService.save(requestDto);
         //Then
-        BookDtoWithoutCategoryIds expected = withoutCategoryIds;
         Assertions.assertEquals(expected, actual);
 
         verify(bookMapping, times(1)).toEntity(requestDto);
@@ -110,43 +96,17 @@ class BookServiceImplTest {
 
     @Test
     @DisplayName("""
-            Verify output for incorrect input in save method
-            """)
-    public void save_emptyInput_throwException() {
-        //Given
-        //When
-        //Then
-    }
-
-    @Test
-    @DisplayName("""
             Verify findAll verify pageable
             """)
     public void findALL_verifyPageable_listOfBookDto() {
         //Given
-        Book book = new Book();
-        book.setId(1L);
-        book.setTitle(TITLE);
-        book.setAuthor(AUTHOR);
-        book.setIsbn(ISBN);
-        book.setPrice(PRICE);
-        book.setDescription(DESCRIPTION);
-        book.setCoverImage(COVER_IMAGE);
-        book.setCategories(CATEGORIES);
-        book.setDeleted(false);
+        Book book = getBook();
 
-        BookDto bookDto = new BookDto();
-        bookDto.setCategoriesId(Set.of());
-        bookDto.setTitle(book.getTitle());
-        bookDto.setIsbn(book.getIsbn());
-        bookDto.setAuthor(book.getAuthor());
-        bookDto.setPrice(book.getPrice());
-        bookDto.setId(book.getId());
-        bookDto.setDescription(book.getDescription());
-        bookDto.setCoverImage(book.getCoverImage());
+        BookDto bookDto = getBookDtoFromBook(book);
 
-        Pageable pageable = PageRequest.of(0,10);
+        Pageable pageable = PageRequest.of(0, 10);
         List<Book> books = List.of(book);
+
         Page<Book> bookPage = new PageImpl<>(
                 books, pageable, books.size()
         );
@@ -174,11 +134,7 @@ class BookServiceImplTest {
         Set<Long> categoriesId = new HashSet<>();
         categoriesId.add(categoryId);
 
-        Category category = new Category();
-        category.setId(categoryId);
-        category.setName("category");
-        category.setDescription(DESCRIPTION);
-        category.setDeleted(false);
+        Category category = getCategory(categoryId);
 
         Set<Category> categories = new HashSet<>();
         categories.add(category);
@@ -188,34 +144,20 @@ class BookServiceImplTest {
                 PRICE, DESCRIPTION,
                 COVER_IMAGE, categoriesId
         );
-        Book book = new Book();
-        book.setId(1L);
-        book.setTitle(requestDto.title());
-        book.setAuthor(requestDto.author());
-        book.setIsbn(requestDto.isbn());
-        book.setPrice(requestDto.price());
-        book.setDescription(requestDto.description());
-        book.setCoverImage(requestDto.coverImage());
+
+        Book book = getBook();
         book.setCategories(categories);
 
-        BookDto bookDto = new BookDto();
-        bookDto.setId(book.getId());
-        bookDto.setTitle(book.getTitle());
-        bookDto.setAuthor(book.getAuthor());
-        bookDto.setIsbn(book.getIsbn());
-        bookDto.setPrice(book.getPrice());
-        bookDto.setDescription(book.getDescription());
-        bookDto.setCoverImage(book.getCoverImage());
-        bookDto.setCategoriesId(categoriesId);
+        BookDto expected = getBookDtoFromBook(book);
+        expected.setCategoriesId(categoriesId);
 
         Long bookId = 1L;
 
         when(bookRepository.findById(bookId)).thenReturn(Optional.of(book));
-        when(bookMapping.toDto(book)).thenReturn(bookDto);
+        when(bookMapping.toDto(book)).thenReturn(expected);
         //When
         BookDto actual = bookService.findById(bookId);
         //Then
-        BookDto expected = bookDto;
         Assertions.assertEquals(expected, actual);
 
         verify(bookRepository, times(1)).findById(bookId);
@@ -229,16 +171,19 @@ class BookServiceImplTest {
             """)
     public void findById_withoutCorrectId_throwException() {
         //Given
-        CreateBookRequestDto requestDto = null;
-        Book book = null;
+        Long bookId = -100L;
 
-        Long bookId = 1L;
-
-        when(bookRepository.findById(bookId)).thenReturn(Optional.of(book));
+        when(bookRepository.findById(bookId)).thenReturn(Optional.empty());
         //When
-        BookDto actual = bookService.findById(bookId);
-        //Then
+        Exception exception = Assertions.assertThrows(EntityNotFoundException.class,
+                () -> bookService.findById(bookId));
 
+        //Then
+        Assertions.assertEquals("Can't find book with id: " + bookId,
+                exception.getMessage());
+
+        verify(bookRepository, times(1)).findById(bookId);
+        verifyNoMoreInteractions(bookRepository);
     }
 
     @Test
@@ -248,19 +193,22 @@ class BookServiceImplTest {
             """)
     public void deleteById_withCorrectId_deleteBookFromDB() {
         //Given
-        //When
-        //Then
-    }
+        Book book = getBook();
+        Long bookId = book.getId();
 
-    @Test
-    @DisplayName("""
-            Verify deleteById without correct id should not delete any book
-            from DB
-            """)
-    public void deleteById_withoutCorrectId_DBWithoutChanges() {
-        //Given
+        when(bookRepository.findById(bookId)).thenReturn(Optional.empty());
         //When
+        bookService.deleteById(bookId);
+
+        Exception exception = Assertions.assertThrows(EntityNotFoundException.class,
+                () -> bookService.findById(bookId));
+
         //Then
+        Assertions.assertEquals("Can't find book with id: " + bookId,
+                exception.getMessage());
+        verify(bookRepository, times(1)).findById(bookId);
+        verify(bookRepository, times(1)).deleteById(bookId);
+        verifyNoMoreInteractions(bookRepository);
     }
 
     @Test
@@ -269,8 +217,24 @@ class BookServiceImplTest {
             """)
     public void update_withCorrectId_returnsBookDto() {
         //Given
+        CreateBookRequestDto createBookRequestDto = getCreateBookRequestDto();
+        Book book = getBook();
+        Long bookId = book.getId();
+
+        BookDto expected = getBookDtoFromBook(book);
+        when(bookRepository.findById(bookId)).thenReturn(Optional.of(book));
+        when(bookMapping.toEntity(createBookRequestDto)).thenReturn(book);
+        when(bookRepository.save(book)).thenReturn(book);
+        when(bookMapping.toDto(book)).thenReturn(expected);
         //When
+        BookDto actual = bookService.update(bookId, createBookRequestDto);
         //Then
+        Assertions.assertEquals(expected, actual);
+        verify(bookRepository, times(1)).findById(bookId);
+        verify(bookMapping, times(1)).toEntity(createBookRequestDto);
+        verify(bookRepository, times(1)).save(book);
+        verify(bookMapping, times(1)).toDto(book);
+        verifyNoMoreInteractions(bookRepository, bookMapping);
     }
 
     @Test
@@ -279,28 +243,19 @@ class BookServiceImplTest {
             """)
     public void update_withoutCorrectId_throwException() {
         //Given
+        CreateBookRequestDto createBookRequestDto = getCreateBookRequestDto();
+        Book book = getBook();
+        book.setId(-123L);
+        Long bookId = book.getId();
         //When
+        when(bookRepository.findById(bookId)).thenReturn(Optional.empty());
+        Exception exception = Assertions.assertThrows(EntityNotFoundException.class,
+                () -> bookService.update(bookId, createBookRequestDto));
         //Then
-    }
+        Assertions.assertEquals("Can't find book with id: " + bookId, exception.getMessage());
 
-    @Test
-    @DisplayName("""
-            Verify searchBooks without parameters should return empty list 
-            """)
-    public void searchBooks_withoutParameters_emptyList() {
-        //Given
-        //When
-        //Then
-    }
-
-    @Test
-    @DisplayName("""
-            Verify searchBooks with parameters should return list of books 
-            """)
-    public void searchBooks_withParameters_returnsListOfBooks() {
-        //Given
-        //When
-        //Then
+        verify(bookRepository, times(1)).findById(bookId);
+        verifyNoMoreInteractions(bookRepository);
     }
 
     @Test
@@ -309,8 +264,36 @@ class BookServiceImplTest {
             """)
     public void findByCategoryId_withIncorrectCategoryId_throwException() {
         //Given
+        Long categoryId = 1L;
+        Set<Long> categoriesId = new HashSet<>();
+        categoriesId.add(categoryId);
+
+        Category category = getCategory(categoryId);
+
+        Set<Category> categories = new HashSet<>();
+        categories.add(category);
+
+        Book book = getBook();
+        book.setCategories(categories);
+        Long bookId = book.getId();
+
+        Pageable pageable = PageRequest.of(0, 10);
+
+        List<Book> bookList = List.of(book);
+        BookDtoWithoutCategoryIds bookDtoWithoutCategoryIdsFromBook =
+                getBookDtoWithoutCategoryIdsFromBook(book);
+
+        when(bookRepository.findAllByCategoriesId(categoryId, pageable)).thenReturn(bookList);
+        when(bookMapping.toDtoWithoutCategoryIds(book)).thenReturn(
+                bookDtoWithoutCategoryIdsFromBook
+        );
         //When
+        List<BookDtoWithoutCategoryIds> byCategoryId = bookService.findByCategoryId(categoryId, pageable);
         //Then
+        Assertions.assertEquals(bookDtoWithoutCategoryIdsFromBook, byCategoryId.get(0));
+        verify(bookRepository, times(1)).findAllByCategoriesId(categoryId, pageable);
+        verify(bookMapping, times(1)).toDtoWithoutCategoryIds(book);
+        verifyNoMoreInteractions(bookRepository, bookMapping);
     }
 
     @Test
@@ -319,7 +302,71 @@ class BookServiceImplTest {
             """)
     public void findByCategoryId_withCorrectCategoryId_returnsListOfBooks() {
         //Given
+        Long categoryId = 123123123123198669L;
+        Pageable pageable = PageRequest.of(0, 10);
+
+        List<Book> bookList = List.of();
+
+        when(bookRepository.findAllByCategoriesId(categoryId, pageable))
+                .thenReturn(bookList);
         //When
+        Exception exception = Assertions.assertThrows(EntityNotFoundException.class,
+                () -> bookService.findByCategoryId(categoryId, pageable));
         //Then
+        Assertions.assertEquals("Can't find book with id: " + categoryId, exception.getMessage());
+        verify(bookRepository, times(1)).findAllByCategoriesId(categoryId, pageable);
+        verifyNoMoreInteractions(bookRepository);
+    }
+
+    private static @NotNull Book getBook() {
+        Book book = new Book();
+        book.setId(1L);
+        book.setTitle(TITLE);
+        book.setAuthor(AUTHOR);
+        book.setIsbn(ISBN);
+        book.setPrice(PRICE);
+        book.setDescription(DESCRIPTION);
+        book.setCoverImage(COVER_IMAGE);
+        book.setCategories(CATEGORIES);
+        book.setDeleted(false);
+        return book;
+    }
+
+    private static @NotNull Category getCategory(Long categoryId) {
+        Category category = new Category();
+        category.setId(categoryId);
+        category.setName("category");
+        category.setDescription(DESCRIPTION);
+        category.setDeleted(false);
+        return category;
+    }
+
+    private static @NotNull BookDto getBookDtoFromBook(Book book) {
+        BookDto bookDto = new BookDto();
+        bookDto.setCategoriesId(Set.of());
+        bookDto.setTitle(book.getTitle());
+        bookDto.setIsbn(book.getIsbn());
+        bookDto.setAuthor(book.getAuthor());
+        bookDto.setPrice(book.getPrice());
+        bookDto.setId(book.getId());
+        bookDto.setDescription(book.getDescription());
+        bookDto.setCoverImage(book.getCoverImage());
+        return bookDto;
+    }
+
+    private static @NotNull BookDtoWithoutCategoryIds getBookDtoWithoutCategoryIdsFromBook(Book book) {
+        BookDtoWithoutCategoryIds withoutCategoryIds = new BookDtoWithoutCategoryIds(
+                book.getId(), book.getTitle(), book.getAuthor(),
+                book.getIsbn(), book.getPrice(), book.getDescription(),
+                book.getCoverImage()
+        );
+        return withoutCategoryIds;
+    }
+
+    private static @NotNull CreateBookRequestDto getCreateBookRequestDto() {
+        CreateBookRequestDto createBookRequestDto = new CreateBookRequestDto(
+                TITLE, AUTHOR, ISBN, PRICE, DESCRIPTION, COVER_IMAGE, CATEGORIES_ID
+        );
+        return createBookRequestDto;
     }
 }

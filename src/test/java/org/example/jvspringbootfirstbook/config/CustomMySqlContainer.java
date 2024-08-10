@@ -5,7 +5,7 @@ import org.testcontainers.containers.MySQLContainer;
 public class CustomMySqlContainer extends MySQLContainer<CustomMySqlContainer> {
     public static final String DB_IMAGE = "mysql:8.4.0";
 
-    private static  CustomMySqlContainer mySqlContainer;
+    private static CustomMySqlContainer mySqlContainer;
 
     public CustomMySqlContainer() {
         super(DB_IMAGE);
