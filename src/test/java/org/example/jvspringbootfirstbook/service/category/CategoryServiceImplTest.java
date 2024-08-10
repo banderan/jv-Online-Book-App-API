@@ -1,6 +1,12 @@
 package org.example.jvspringbootfirstbook.service.category;
 
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
 
+import java.util.List;
+import java.util.Optional;
 import org.example.jvspringbootfirstbook.dto.category.CategoryDto;
 import org.example.jvspringbootfirstbook.dto.category.CreateCategoryRequestDto;
 import org.example.jvspringbootfirstbook.exception.EntityNotFoundException;
@@ -20,11 +26,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-import java.util.List;
-import java.util.Optional;
-
-import static org.mockito.Mockito.*;
-
 @ExtendWith(MockitoExtension.class)
 class CategoryServiceImplTest {
     public static final String NAME = "name";
@@ -39,9 +40,9 @@ class CategoryServiceImplTest {
 
     @Test
     @DisplayName("""
-            Verify findAll method with items in DB
+            Verify findAll verify pageable
             """)
-    public void findALL_withItemsInDB_listOfCategoryDto() {
+    public void findAll_VerifyPageable_ReturnsList() {
         //Given
         Category category = getCategory();
         List<Category> categories = List.of(category);

@@ -1,5 +1,13 @@
 package org.example.jvspringbootfirstbook.controller;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.when;
+
+import java.math.BigDecimal;
+import java.util.List;
 import org.example.jvspringbootfirstbook.dto.book.BookDtoWithoutCategoryIds;
 import org.example.jvspringbootfirstbook.dto.category.CategoryDto;
 import org.example.jvspringbootfirstbook.dto.category.CreateCategoryRequestDto;
@@ -16,15 +24,6 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-
-import java.math.BigDecimal;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class CategoryControllerTest {
@@ -48,7 +47,8 @@ class CategoryControllerTest {
         Category category = getCategory();
         CategoryDto expectedCategory = getCategoryDtoFromCategory(category);
 
-        when(categoryService.save(any(CreateCategoryRequestDto.class))).thenReturn(expectedCategory);
+        when(categoryService.save(any(CreateCategoryRequestDto.class)))
+                .thenReturn(expectedCategory);
 
         // When
         CategoryDto actualCategory = categoryController.createCategory(requestDto);
@@ -107,7 +107,8 @@ class CategoryControllerTest {
         CreateCategoryRequestDto requestDto = getCreateCategoryRequestDto();
         CategoryDto expectedCategory = getCategoryDtoFromCategory(getCategory());
 
-        when(categoryService.update(eq(categoryId), any(CreateCategoryRequestDto.class))).thenReturn(expectedCategory);
+        when(categoryService.update(eq(categoryId), any(CreateCategoryRequestDto.class)))
+                .thenReturn(expectedCategory);
 
         // When
         CategoryDto actualCategory = categoryController.updateCategory(categoryId, requestDto);
@@ -149,14 +150,14 @@ class CategoryControllerTest {
         when(bookService.findByCategoryId(eq(categoryId), eq(pageable))).thenReturn(expectedBooks);
 
         // When
-        List<BookDtoWithoutCategoryIds> actualBooks = categoryController.getBooksByCategoryId(categoryId, pageable);
+        List<BookDtoWithoutCategoryIds> actualBooks = categoryController
+                .getBooksByCategoryId(categoryId, pageable);
 
         // Then
         assertNotNull(actualBooks);
         assertEquals(expectedBooks.size(), actualBooks.size());
         assertEquals(expectedBooks, actualBooks);
     }
-
 
     private static @NotNull Category getCategory() {
         Category category = new Category();

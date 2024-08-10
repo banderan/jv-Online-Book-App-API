@@ -1,6 +1,17 @@
 package org.example.jvspringbootfirstbook.controller;
 
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.math.BigDecimal;
+import java.sql.Connection;
+import java.util.List;
+import java.util.Set;
+import javax.sql.DataSource;
 import lombok.SneakyThrows;
 import org.example.jvspringbootfirstbook.dto.book.BookDto;
 import org.example.jvspringbootfirstbook.dto.book.BookDtoWithoutCategoryIds;
@@ -26,16 +37,6 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.testcontainers.shaded.org.apache.commons.lang3.builder.EqualsBuilder;
-
-import javax.sql.DataSource;
-import java.math.BigDecimal;
-import java.sql.Connection;
-import java.util.List;
-import java.util.Set;
-
-import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class BookControllerTest {
@@ -151,7 +152,8 @@ class BookControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        List<BookDto> bookDtoList = objectMapper.readValue(result.getResponse().getContentAsString(),
+        List<BookDto> bookDtoList = objectMapper.readValue(
+                result.getResponse().getContentAsString(),
                 objectMapper.getTypeFactory()
                         .constructCollectionType(List.class, BookDto.class));
         Assertions.assertNotNull(bookDtoList);
@@ -216,7 +218,8 @@ class BookControllerTest {
         return bookDto;
     }
 
-    private static @NotNull BookDtoWithoutCategoryIds getBookDtoWithoutCategoryIdsFromBook(Book book) {
+    private static
+            @NotNull BookDtoWithoutCategoryIds getBookDtoWithoutCategoryIdsFromBook(Book book) {
         BookDtoWithoutCategoryIds withoutCategoryIds = new BookDtoWithoutCategoryIds(
                 book.getId(), book.getTitle(), book.getAuthor(),
                 book.getIsbn(), book.getPrice(), book.getDescription(),

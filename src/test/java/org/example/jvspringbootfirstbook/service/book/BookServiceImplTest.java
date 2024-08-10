@@ -1,5 +1,16 @@
 package org.example.jvspringbootfirstbook.service.book;
 
+import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
+
+import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import org.example.jvspringbootfirstbook.dto.book.BookDto;
 import org.example.jvspringbootfirstbook.dto.book.BookDtoWithoutCategoryIds;
 import org.example.jvspringbootfirstbook.dto.book.CreateBookRequestDto;
@@ -21,15 +32,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-
-import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-
-import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
-import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class BookServiceImplTest {
@@ -98,7 +100,7 @@ class BookServiceImplTest {
     @DisplayName("""
             Verify findAll verify pageable
             """)
-    public void findALL_verifyPageable_listOfBookDto() {
+    public void findAll_VerifyPageable_ReturnsList() {
         //Given
         Book book = getBook();
 
@@ -288,10 +290,13 @@ class BookServiceImplTest {
                 bookDtoWithoutCategoryIdsFromBook
         );
         //When
-        List<BookDtoWithoutCategoryIds> byCategoryId = bookService.findByCategoryId(categoryId, pageable);
+        List<BookDtoWithoutCategoryIds> byCategoryId = bookService
+                .findByCategoryId(categoryId, pageable);
         //Then
         Assertions.assertEquals(bookDtoWithoutCategoryIdsFromBook, byCategoryId.get(0));
-        verify(bookRepository, times(1)).findAllByCategoriesId(categoryId, pageable);
+
+        verify(bookRepository, times(1))
+                .findAllByCategoriesId(categoryId, pageable);
         verify(bookMapping, times(1)).toDtoWithoutCategoryIds(book);
         verifyNoMoreInteractions(bookRepository, bookMapping);
     }
@@ -354,7 +359,8 @@ class BookServiceImplTest {
         return bookDto;
     }
 
-    private static @NotNull BookDtoWithoutCategoryIds getBookDtoWithoutCategoryIdsFromBook(Book book) {
+    private static @NotNull
+            BookDtoWithoutCategoryIds getBookDtoWithoutCategoryIdsFromBook(Book book) {
         BookDtoWithoutCategoryIds withoutCategoryIds = new BookDtoWithoutCategoryIds(
                 book.getId(), book.getTitle(), book.getAuthor(),
                 book.getIsbn(), book.getPrice(), book.getDescription(),
