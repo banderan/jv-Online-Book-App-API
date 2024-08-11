@@ -112,9 +112,7 @@ class CategoryServiceImplTest {
     public void save_correctInput_ReturnsCategoryDto() {
         //Given
         CreateCategoryRequestDto requestDto = getCreateCategoryRequestDto();
-
         Category category = getCategory();
-
         CategoryDto categoryDto = getCategoryDtoFromCategory(category);
 
         when(categoryMapper.toEntity(requestDto)).thenReturn(category);

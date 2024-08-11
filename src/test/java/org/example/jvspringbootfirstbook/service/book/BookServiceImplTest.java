@@ -43,6 +43,7 @@ class BookServiceImplTest {
     public static final String COVER_IMAGE = "image";
     public static final Set<Long> CATEGORIES_ID = Set.of();
     public static final Set<Category> CATEGORIES = Set.of();
+    public static final Long CATEGORY_ID = 1L;
     @Mock
     private BookRepository bookRepository;
     @Mock
@@ -59,11 +60,10 @@ class BookServiceImplTest {
             """)
     public void save_correctInput_ReturnsBookDtoWithoutCategoryIds() {
         //Given
-        Long categoryId = 1L;
         Set<Long> categoriesId = new HashSet<>();
-        categoriesId.add(categoryId);
+        categoriesId.add(CATEGORY_ID);
 
-        Category category = getCategory(categoryId);
+        Category category = getCategory(CATEGORY_ID);
 
         Set<Category> categories = new HashSet<>();
         categories.add(category);
@@ -79,7 +79,7 @@ class BookServiceImplTest {
         BookDtoWithoutCategoryIds expected = getBookDtoWithoutCategoryIdsFromBook(book);
 
         when(bookMapping.toEntity(requestDto)).thenReturn(book);
-        when(categoryRepository.findById(categoryId)).thenReturn(Optional.of(category));
+        when(categoryRepository.findById(CATEGORY_ID)).thenReturn(Optional.of(category));
         when(bookRepository.save(book)).thenReturn(book);
         when(bookMapping.toDtoWithoutCategoryIds(book)).thenReturn(
                 expected
@@ -91,7 +91,7 @@ class BookServiceImplTest {
 
         verify(bookMapping, times(1)).toEntity(requestDto);
         verify(bookRepository, times(1)).save(book);
-        verify(categoryRepository, times(1)).findById(categoryId);
+        verify(categoryRepository, times(1)).findById(CATEGORY_ID);
         verify(bookMapping, times(1)).toDtoWithoutCategoryIds(book);
         verifyNoMoreInteractions(bookMapping, bookRepository, categoryRepository);
     }
@@ -132,11 +132,10 @@ class BookServiceImplTest {
             """)
     public void findById_withCorrectId_returnsBookDto() {
         //Given
-        Long categoryId = 1L;
         Set<Long> categoriesId = new HashSet<>();
-        categoriesId.add(categoryId);
+        categoriesId.add(CATEGORY_ID);
 
-        Category category = getCategory(categoryId);
+        Category category = getCategory(CATEGORY_ID);
 
         Set<Category> categories = new HashSet<>();
         categories.add(category);
@@ -266,11 +265,10 @@ class BookServiceImplTest {
             """)
     public void findByCategoryId_withIncorrectCategoryId_throwException() {
         //Given
-        Long categoryId = 1L;
         Set<Long> categoriesId = new HashSet<>();
-        categoriesId.add(categoryId);
+        categoriesId.add(CATEGORY_ID);
 
-        Category category = getCategory(categoryId);
+        Category category = getCategory(CATEGORY_ID);
 
         Set<Category> categories = new HashSet<>();
         categories.add(category);
@@ -285,18 +283,18 @@ class BookServiceImplTest {
         BookDtoWithoutCategoryIds bookDtoWithoutCategoryIdsFromBook =
                 getBookDtoWithoutCategoryIdsFromBook(book);
 
-        when(bookRepository.findAllByCategoriesId(categoryId, pageable)).thenReturn(bookList);
+        when(bookRepository.findAllByCategoriesId(CATEGORY_ID, pageable)).thenReturn(bookList);
         when(bookMapping.toDtoWithoutCategoryIds(book)).thenReturn(
                 bookDtoWithoutCategoryIdsFromBook
         );
         //When
         List<BookDtoWithoutCategoryIds> byCategoryId = bookService
-                .findByCategoryId(categoryId, pageable);
+                .findByCategoryId(CATEGORY_ID, pageable);
         //Then
         Assertions.assertEquals(bookDtoWithoutCategoryIdsFromBook, byCategoryId.get(0));
 
         verify(bookRepository, times(1))
-                .findAllByCategoriesId(categoryId, pageable);
+                .findAllByCategoriesId(CATEGORY_ID, pageable);
         verify(bookMapping, times(1)).toDtoWithoutCategoryIds(book);
         verifyNoMoreInteractions(bookRepository, bookMapping);
     }

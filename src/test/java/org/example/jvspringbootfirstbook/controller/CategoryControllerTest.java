@@ -1,9 +1,11 @@
 package org.example.jvspringbootfirstbook.controller;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
@@ -29,6 +31,7 @@ import org.springframework.data.domain.Pageable;
 class CategoryControllerTest {
     public static final String NAME = "name";
     public static final String DESCRIPTION = "ok description";
+    public static final Long CATEGORY_ID = 1L;
 
     @Mock
     private CategoryService categoryService;
@@ -54,10 +57,12 @@ class CategoryControllerTest {
         CategoryDto actualCategory = categoryController.createCategory(requestDto);
 
         // Then
-        assertNotNull(actualCategory);
-        assertEquals(expectedCategory.getId(), actualCategory.getId());
-        assertEquals(expectedCategory.getName(), actualCategory.getName());
-        assertEquals(expectedCategory.getDescription(), actualCategory.getDescription());
+        assertAll(
+                () -> assertNotNull(actualCategory),
+                () -> assertEquals(expectedCategory.getId(), actualCategory.getId()),
+                () -> assertEquals(expectedCategory.getName(), actualCategory.getName()),
+                () -> assertEquals(expectedCategory.getDescription(), actualCategory
+                        .getDescription()));
     }
 
     @Test
@@ -85,13 +90,12 @@ class CategoryControllerTest {
     @DisplayName("Get Category By ID - Success")
     public void getCategoryById_Success() {
         // Given
-        Long categoryId = 1L;
         CategoryDto expectedCategory = getCategoryDtoFromCategory(getCategory());
 
-        when(categoryService.getById(eq(categoryId))).thenReturn(expectedCategory);
+        when(categoryService.getById(eq(CATEGORY_ID))).thenReturn(expectedCategory);
 
         // When
-        CategoryDto actualCategory = categoryController.getCategoryById(categoryId);
+        CategoryDto actualCategory = categoryController.getCategoryById(CATEGORY_ID);
 
         // Then
         assertNotNull(actualCategory);
@@ -103,15 +107,14 @@ class CategoryControllerTest {
     @DisplayName("Update Category - Success")
     public void updateCategory_Success() {
         // Given
-        Long categoryId = 1L;
         CreateCategoryRequestDto requestDto = getCreateCategoryRequestDto();
         CategoryDto expectedCategory = getCategoryDtoFromCategory(getCategory());
 
-        when(categoryService.update(eq(categoryId), any(CreateCategoryRequestDto.class)))
+        when(categoryService.update(eq(CATEGORY_ID), any(CreateCategoryRequestDto.class)))
                 .thenReturn(expectedCategory);
 
         // When
-        CategoryDto actualCategory = categoryController.updateCategory(categoryId, requestDto);
+        CategoryDto actualCategory = categoryController.updateCategory(CATEGORY_ID, requestDto);
 
         // Then
         assertNotNull(actualCategory);
@@ -125,7 +128,7 @@ class CategoryControllerTest {
     public void deleteCategory_Success() {
         // Given
         Long categoryId = 1L;
-        Mockito.doNothing().when(categoryService).deleteById(eq(categoryId));
+        doNothing().when(categoryService).deleteById(eq(categoryId));
 
         // When
         categoryController.deleteCategory(categoryId);

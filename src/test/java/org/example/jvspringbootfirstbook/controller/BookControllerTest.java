@@ -105,8 +105,8 @@ class BookControllerTest {
                 result.getResponse().getContentAsString(),
                 BookDtoWithoutCategoryIds.class
         );
-        Assertions.assertNotNull(actual);
-        Assertions.assertNotNull(actual.id());
+        Assertions.assertAll(() -> Assertions.assertNotNull(actual),
+                () -> Assertions.assertNotNull(actual.id()));
 
         Assertions.assertEquals(expected.title(), actual.title());
         Assertions.assertEquals(expected.author(), actual.author());
