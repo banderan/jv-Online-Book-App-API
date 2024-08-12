@@ -40,7 +40,7 @@ class CategoryServiceImplTest {
 
     @Test
     @DisplayName("""
-            Verify findAll verify pageable
+            Find all categories with pagination - verify pageable
             """)
     public void findAll_VerifyPageable_ReturnsList() {
         //Given
@@ -65,7 +65,7 @@ class CategoryServiceImplTest {
 
     @Test
     @DisplayName("""
-            Verify getById method with correct id should return
+            Get category by valid ID - returns CategoryDto
             """)
     public void getById_withCorrectId_returnsCategoryDto() {
         //Given
@@ -86,7 +86,7 @@ class CategoryServiceImplTest {
 
     @Test
     @DisplayName("""
-            Verify getById method without id should throw EntityNotFoundException
+            Get category by invalid ID - throws EntityNotFoundException
             """)
     public void getById_withoutCorrectId_throwException() {
         //Given
@@ -107,7 +107,7 @@ class CategoryServiceImplTest {
 
     @Test
     @DisplayName("""
-            Verify save method with correct id should return CategoryDto
+            Save category with valid input - returns CategoryDto
             """)
     public void save_correctInput_ReturnsCategoryDto() {
         //Given
@@ -132,7 +132,7 @@ class CategoryServiceImplTest {
 
     @Test
     @DisplayName("""
-            Verify update method with correct id should return CategoryDto
+            Update category by valid ID - returns updated CategoryDto
             """)
     public void update_withCorrectId_returnsCategoryDto() {
         //Given
@@ -160,7 +160,7 @@ class CategoryServiceImplTest {
 
     @Test
     @DisplayName("""
-            Verify update method without correct id should throw EntityNotFoundException
+            Update category by invalid ID - throws EntityNotFoundException
             """)
     public void update_withoutCorrectId_throwException() {
         //Given
@@ -184,7 +184,7 @@ class CategoryServiceImplTest {
 
     @Test
     @DisplayName("""
-            Verify delete method with correct id should delete Category
+            Delete category by valid ID - category removed from DB
              from DB
             """)
     public void deleteById_withCorrectId_deleteCategoryFromDB() {

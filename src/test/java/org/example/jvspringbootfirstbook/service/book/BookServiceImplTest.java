@@ -56,7 +56,7 @@ class BookServiceImplTest {
 
     @Test
     @DisplayName("""
-            Verify output for correct input in save method
+            Save book with valid input - returns BookDtoWithoutCategoryIds
             """)
     public void save_correctInput_ReturnsBookDtoWithoutCategoryIds() {
         //Given
@@ -98,7 +98,7 @@ class BookServiceImplTest {
 
     @Test
     @DisplayName("""
-            Verify findAll verify pageable
+            Find all books with pagination - verify pageable
             """)
     public void findAll_VerifyPageable_ReturnsList() {
         //Given
@@ -128,7 +128,7 @@ class BookServiceImplTest {
 
     @Test
     @DisplayName("""
-            Verify findById method with correct id
+            Find book by valid ID - returns BookDto
             """)
     public void findById_withCorrectId_returnsBookDto() {
         //Given
@@ -168,7 +168,7 @@ class BookServiceImplTest {
 
     @Test
     @DisplayName("""
-            Verify findById method without correct id
+            Find book by invalid ID - throws EntityNotFoundException
             """)
     public void findById_withoutCorrectId_throwException() {
         //Given
@@ -189,8 +189,7 @@ class BookServiceImplTest {
 
     @Test
     @DisplayName("""
-            Verify deleteById with correct id should delete book
-            from DB
+            Delete book by valid ID - book removed from DB
             """)
     public void deleteById_withCorrectId_deleteBookFromDB() {
         //Given
@@ -214,7 +213,7 @@ class BookServiceImplTest {
 
     @Test
     @DisplayName("""
-            Verify update with correct id should update & return book
+            Update book by valid ID - returns updated BookDto
             """)
     public void update_withCorrectId_returnsBookDto() {
         //Given
@@ -240,7 +239,7 @@ class BookServiceImplTest {
 
     @Test
     @DisplayName("""
-            Verify update with correct id should throw a EntityNotFoundException
+            Update book by invalid ID - throws EntityNotFoundException
             """)
     public void update_withoutCorrectId_throwException() {
         //Given
@@ -261,7 +260,7 @@ class BookServiceImplTest {
 
     @Test
     @DisplayName("""
-            Verify findByCategoryId with incorrect id should throw an EntityNotFoundException
+            Find books by invalid category ID - throws EntityNotFoundException
             """)
     public void findByCategoryId_withIncorrectCategoryId_throwException() {
         //Given
@@ -301,7 +300,7 @@ class BookServiceImplTest {
 
     @Test
     @DisplayName("""
-            Verify findByCategoryId with incorrect id should return list of books
+            Find books by valid category ID - returns list of books
             """)
     public void findByCategoryId_withCorrectCategoryId_returnsListOfBooks() {
         //Given

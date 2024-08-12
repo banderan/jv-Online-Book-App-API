@@ -20,7 +20,7 @@ class BookRepositoryTest {
 
     @Test
     @DisplayName("""
-            Find all books by category id
+            Find all books by category ID - one book found
             """)
     @Sql(scripts = {"classpath:db/books/repository/Add-book-to-books-table.sql"},
             executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
