@@ -106,15 +106,15 @@ class BookControllerTest {
                 BookDtoWithoutCategoryIds.class
         );
         Assertions.assertAll(() -> Assertions.assertNotNull(actual),
-                () -> Assertions.assertNotNull(actual.id()));
-
-        Assertions.assertEquals(expected.title(), actual.title());
-        Assertions.assertEquals(expected.author(), actual.author());
-        Assertions.assertEquals(expected.isbn(), actual.isbn());
-        Assertions.assertEquals(expected.isbn(), actual.isbn());
-        Assertions.assertEquals(expected.price(), actual.price());
-        Assertions.assertEquals(expected.description(), actual.description());
-        Assertions.assertEquals(expected.coverImage(), actual.coverImage());
+                () -> Assertions.assertNotNull(actual.id()),
+                () -> Assertions.assertEquals(expected.title(), actual.title()),
+                () -> Assertions.assertEquals(expected.author(), actual.author()),
+                () -> Assertions.assertEquals(expected.isbn(), actual.isbn()),
+                () -> Assertions.assertEquals(expected.isbn(), actual.isbn()),
+                () -> Assertions.assertEquals(expected.price(), actual.price()),
+                () -> Assertions.assertEquals(expected.description(), actual.description()),
+                () -> Assertions.assertEquals(expected.coverImage(), actual.coverImage())
+        );
 
         EqualsBuilder.reflectionEquals(expected, actual, "id", "cover_images");
     }
