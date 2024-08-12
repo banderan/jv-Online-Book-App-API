@@ -1,10 +1,24 @@
 package org.example.jvspringbootfirstbook.controller;
 
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
+
+import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
 import org.example.jvspringbootfirstbook.dto.cart.CartItemDto;
 import org.example.jvspringbootfirstbook.dto.cart.CartItemRequestDto;
 import org.example.jvspringbootfirstbook.dto.cart.CartItemUpdatedDto;
 import org.example.jvspringbootfirstbook.dto.cart.ShoppingCartDto;
-import org.example.jvspringbootfirstbook.model.*;
+import org.example.jvspringbootfirstbook.model.Book;
+import org.example.jvspringbootfirstbook.model.CartItem;
+import org.example.jvspringbootfirstbook.model.Category;
+import org.example.jvspringbootfirstbook.model.Role;
+import org.example.jvspringbootfirstbook.model.ShoppingCart;
+import org.example.jvspringbootfirstbook.model.User;
 import org.example.jvspringbootfirstbook.service.cart.ShoppingCartService;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Assertions;
@@ -14,12 +28,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.Set;
-
-import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class ShoppingCartControllerTest {
@@ -38,7 +46,8 @@ class ShoppingCartControllerTest {
     private static final String DESCRIPTION = "Description";
     private static final String COVER_IMAGE = "Cover Image";
     private static final Set<Category> EMPTY_CATEGORIES = new HashSet<>();
-    public static final Set<CartItem> EMPTY_CART_ITEMS = new HashSet<>();
+    private static final Set<CartItem> EMPTY_CART_ITEMS = new HashSet<>();
+
     @Mock
     private ShoppingCartService shoppingCartService;
 
@@ -88,7 +97,8 @@ class ShoppingCartControllerTest {
         verifyNoMoreInteractions(shoppingCartService);
     }
 
-    private static @NotNull CartItem getCartItem(ShoppingCart shoppingCart, Book book, CartItemRequestDto cartItemRequestDto) {
+    private static @NotNull CartItem getCartItem(
+            ShoppingCart shoppingCart, Book book, CartItemRequestDto cartItemRequestDto) {
         CartItem cartItem = new CartItem();
         cartItem.setId(ID);
         cartItem.setShoppingCart(shoppingCart);

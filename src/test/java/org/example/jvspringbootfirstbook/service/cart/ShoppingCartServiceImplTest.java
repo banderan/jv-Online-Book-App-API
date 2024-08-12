@@ -1,5 +1,14 @@
 package org.example.jvspringbootfirstbook.service.cart;
 
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
+
+import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
 import org.example.jvspringbootfirstbook.dto.cart.CartItemDto;
 import org.example.jvspringbootfirstbook.dto.cart.CartItemRequestDto;
 import org.example.jvspringbootfirstbook.dto.cart.CartItemUpdatedDto;
@@ -7,7 +16,12 @@ import org.example.jvspringbootfirstbook.dto.cart.ShoppingCartDto;
 import org.example.jvspringbootfirstbook.exception.EntityNotFoundException;
 import org.example.jvspringbootfirstbook.mapper.CartItemMapper;
 import org.example.jvspringbootfirstbook.mapper.ShoppingCartMapper;
-import org.example.jvspringbootfirstbook.model.*;
+import org.example.jvspringbootfirstbook.model.Book;
+import org.example.jvspringbootfirstbook.model.CartItem;
+import org.example.jvspringbootfirstbook.model.Category;
+import org.example.jvspringbootfirstbook.model.Role;
+import org.example.jvspringbootfirstbook.model.ShoppingCart;
+import org.example.jvspringbootfirstbook.model.User;
 import org.example.jvspringbootfirstbook.repository.book.BookRepository;
 import org.example.jvspringbootfirstbook.repository.cart.CartItemRepository;
 import org.example.jvspringbootfirstbook.repository.cart.ShoppingCartRepository;
@@ -19,13 +33,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
-
-import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class ShoppingCartServiceImplTest {
@@ -44,7 +51,8 @@ class ShoppingCartServiceImplTest {
     private static final String DESCRIPTION = "Description";
     private static final String COVER_IMAGE = "Cover Image";
     private static final Set<Category> EMPTY_CATEGORIES = new HashSet<>();
-    public static final Set<CartItem> EMPTY_CART_ITEMS = new HashSet<>();
+    private static final Set<CartItem> EMPTY_CART_ITEMS = new HashSet<>();
+
     @Mock
     private ShoppingCartRepository shoppingCartRepository;
     @Mock
@@ -121,7 +129,8 @@ class ShoppingCartServiceImplTest {
         verify(shoppingCartRepository, times(1)).findShoppingCartByUser(user);
         verify(shoppingCartRepository, times(1)).save(shoppingCart);
         verify(shoppingCartMapper, times(1)).toDto(shoppingCart);
-        verifyNoMoreInteractions(shoppingCartRepository, shoppingCartMapper, bookRepository, cartItemMapper);
+        verifyNoMoreInteractions(shoppingCartRepository, shoppingCartMapper,
+                bookRepository, cartItemMapper);
 
     }
 
@@ -203,17 +212,17 @@ class ShoppingCartServiceImplTest {
 
         when(cartItemRepository.findById(cartItem.getId())).thenReturn(Optional.empty());
 
-         Exception exception = Assertions.assertThrows(EntityNotFoundException.class,
-                () -> shoppingCartService.updateItemQuantity(cartItem.getId(),
-                        cartItemUpdateDto)
-         );
+        Exception exception = Assertions.assertThrows(EntityNotFoundException.class,
+                () -> shoppingCartService.updateItemQuantity(cartItem.getId(), cartItemUpdateDto)
+        );
         Assertions.assertEquals("Item not found"
                 + " with item id: " + cartItem.getId(), exception.getMessage());
         verify(cartItemRepository, times(1)).findById(cartItem.getId());
         verifyNoMoreInteractions(cartItemRepository);
     }
 
-    private static @NotNull CartItem getCartItem(ShoppingCart shoppingCart, Book book, CartItemRequestDto cartItemRequestDto) {
+    private static @NotNull CartItem getCartItem(
+            ShoppingCart shoppingCart, Book book, CartItemRequestDto cartItemRequestDto) {
         CartItem cartItem = new CartItem();
         cartItem.setId(ID);
         cartItem.setShoppingCart(shoppingCart);
