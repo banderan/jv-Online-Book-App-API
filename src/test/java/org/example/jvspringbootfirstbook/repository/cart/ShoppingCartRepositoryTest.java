@@ -1,13 +1,17 @@
 package org.example.jvspringbootfirstbook.repository.cart;
 
 import java.util.HashSet;
+import org.assertj.core.api.AssertionsForClassTypes;
 import org.example.jvspringbootfirstbook.model.Role;
 import org.example.jvspringbootfirstbook.model.RoleName;
 import org.example.jvspringbootfirstbook.model.ShoppingCart;
 import org.example.jvspringbootfirstbook.model.User;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.jdbc.Sql;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -15,7 +19,7 @@ class ShoppingCartRepositoryTest {
     @Autowired
     private ShoppingCartRepository shoppingCartRepository;
 
-    /*@Test
+    @Test
     @DisplayName("""
             Should return the ShoppingCart associated with the User having ID 2
             """)
@@ -32,7 +36,7 @@ class ShoppingCartRepositoryTest {
 
         AssertionsForClassTypes.assertThat(actual).usingRecursiveComparison()
                 .isEqualTo(testShoppingCart);
-    }*/
+    }
 
     private ShoppingCart getTestShoppingCart() {
         Role role = new Role();
