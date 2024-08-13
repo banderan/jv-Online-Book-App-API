@@ -11,6 +11,8 @@ import org.example.jvspringbootfirstbook.model.ShoppingCart;
 import org.example.jvspringbootfirstbook.model.User;
 import org.example.jvspringbootfirstbook.repository.user.UserRepository;
 import org.junit.jupiter.api.Assertions;
+
+import java.util.HashSet;
 import java.util.Set;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -47,6 +49,8 @@ class ShoppingCartRepositoryTest {
     private ShoppingCart getTestShoppingCart() {
         Role role = new Role();
         role.setName(RoleName.ROLE_USER);
+        HashSet<Role> hashSet = new HashSet<>();
+        hashSet.add(role);
 
         User user = new User();
         user.setId(2L);
@@ -56,12 +60,12 @@ class ShoppingCartRepositoryTest {
         user.setLastName("Last Name");
         user.setShippingAddress("address");
         user.setDeleted(false);
-        user.setRoles(Set.of(role));
+        user.setRoles(hashSet);
 
         ShoppingCart shoppingCart = new ShoppingCart();
         shoppingCart.setId(2L);
         shoppingCart.setUser(user);
-        shoppingCart.setCartItems(Set.of());
+        shoppingCart.setCartItems(new HashSet<>());
         shoppingCart.setDeleted(false);
         return shoppingCart;
     }
