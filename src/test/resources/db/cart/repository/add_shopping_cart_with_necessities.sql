@@ -1,9 +1,12 @@
-INSERT INTO users (id, email, password, first_name, last_name, shipping_address, is_deleted)
-VALUES (2, 'okok@email.com', '$2a$10$EhBFr.PagMjT0P0EYqRL/.KjPUA2vRSutGZo92Xr9Hh/JwwAJq/vi'
-       ,'First Name', 'Last Name', 'address', false);
 
-INSERT INTO user_roles (user_id, role_id)
-VALUES (2, 1);
+INSERT INTO users (id, email, password, first_name, last_name, shipping_address, is_deleted)
+VALUES (1, 'okok@email.com', 'okok','First Name', 'Last Name', 'address', false);
+
+INSERT INTO books (id, title, author, isbn, price, description, cover_image, is_deleted)
+VALUES (1, 'Title', 'bw', '12345', 12.19, 'ok', 'image', false);
 
 INSERT INTO shopping_carts (id, user_id, is_deleted)
-VALUES (2, 2, false);
+VALUES (1, 1, false);
+
+INSERT INTO cart_items (id, cart_id, books_id, quantity, is_deleted)
+VALUES (1, 1, 1, 1, false);

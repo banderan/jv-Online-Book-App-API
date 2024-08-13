@@ -1,11 +1,14 @@
 package org.example.jvspringbootfirstbook.repository.cart;
 
+import java.math.BigDecimal;
 import java.util.HashSet;
-import org.assertj.core.api.AssertionsForClassTypes;
-import org.example.jvspringbootfirstbook.model.Role;
-import org.example.jvspringbootfirstbook.model.RoleName;
+import java.util.Set;
+import java.util.stream.Collectors;
+import org.example.jvspringbootfirstbook.model.Book;
+import org.example.jvspringbootfirstbook.model.CartItem;
 import org.example.jvspringbootfirstbook.model.ShoppingCart;
 import org.example.jvspringbootfirstbook.model.User;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,36 +32,70 @@ class ShoppingCartRepositoryTest {
     @Sql(scripts = {"classpath:db/cart/repository/delete_existing_carts.sql"},
             executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void findShoppingCartByUser_UserWithIdEqualOne_returnsShoppingCart() {
-        Long userId = 2L;
+        Long userId = 1L;
         ShoppingCart testShoppingCart = getTestShoppingCart();
         ShoppingCart actual = shoppingCartRepository
                 .findShoppingCartByUser(userId);
+        Assertions.assertAll(
+                () -> Assertions.assertEquals(testShoppingCart.getId(),
+                        actual.getId()),
+                () -> Assertions.assertEquals(testShoppingCart.getUser().getEmail(),
+                        actual.getUser().getEmail()),
+                () -> Assertions.assertEquals(
+                        takeItemsAndGetString(testShoppingCart),
+                        takeItemsAndGetString(actual))
+        );
+    }
 
-        AssertionsForClassTypes.assertThat(actual).usingRecursiveComparison()
-                .isEqualTo(testShoppingCart);
+    private String takeItemsAndGetString(ShoppingCart testShoppingCart) {
+        return testShoppingCart.getCartItems()
+                .stream()
+                .map(this::getStringOfBookNameAndQuantity)
+                .collect(Collectors.joining());
+    }
+
+    private String getStringOfBookNameAndQuantity(CartItem cartItem) {
+        String title = cartItem.getBook().getTitle();
+        BigDecimal price = cartItem.getBook().getPrice();
+        int quantity = cartItem.getQuantity();
+        return title + "-" + price + "-" + quantity;
     }
 
     private ShoppingCart getTestShoppingCart() {
-        Role role = new Role();
-        role.setName(RoleName.ROLE_USER);
-        HashSet<Role> hashSet = new HashSet<>();
-        hashSet.add(role);
-
         User user = new User();
-        user.setId(2L);
+        user.setId(1L);
         user.setEmail("okok@email.com");
-        user.setPassword("$2a$10$EhBFr.PagMjT0P0EYqRL/.KjPUA2vRSutGZo92Xr9Hh/JwwAJq/vi");//password
+        user.setPassword("okok");
         user.setFirstName("First Name");
         user.setLastName("Last Name");
         user.setShippingAddress("address");
         user.setDeleted(false);
-        user.setRoles(hashSet);
+        user.setRoles(new HashSet<>());
+
+        Book book = new Book();
+        book.setId(1L);
+        book.setTitle("Title");
+        book.setAuthor("bw");
+        book.setIsbn("12345");
+        book.setPrice(BigDecimal.valueOf(12.19));
+        book.setDescription("ok");
+        book.setCoverImage("image");
+        book.setDeleted(false);
 
         ShoppingCart shoppingCart = new ShoppingCart();
-        shoppingCart.setId(2L);
+        shoppingCart.setId(1L);
         shoppingCart.setUser(user);
         shoppingCart.setCartItems(new HashSet<>());
         shoppingCart.setDeleted(false);
+
+        CartItem cartItem = new CartItem();
+        cartItem.setId(1L);
+        cartItem.setShoppingCart(shoppingCart);
+        cartItem.setBook(book);
+        cartItem.setQuantity(1);
+        cartItem.setDeleted(false);
+
+        shoppingCart.setCartItems(Set.of(cartItem));
         return shoppingCart;
     }
 }

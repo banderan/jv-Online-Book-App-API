@@ -1,3 +1,9 @@
-DELETE FROM user_roles WHERE user_id = 2;
-DELETE FROM shopping_carts WHERE id = 2;
-DELETE FROM users WHERE id = 2;
+-- Clean tables in the reverse order of dependency
+DELETE FROM cart_items;
+DELETE FROM shopping_carts;
+DELETE FROM books_categories;
+DELETE FROM categories;
+DELETE FROM books;
+DELETE FROM user_roles;
+DELETE FROM roles;
+DELETE FROM users;
