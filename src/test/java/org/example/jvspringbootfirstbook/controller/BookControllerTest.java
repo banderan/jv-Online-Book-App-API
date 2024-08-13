@@ -142,7 +142,6 @@ class BookControllerTest {
 
     @WithMockUser(username = "user", roles = "USER")
     @Test
-
     public void getAll_ValidGetAllRequestDto_Success() throws Exception {
         Pageable pageable = PageRequest.of(0, 10);
         MvcResult result = mockMvc.perform(get("/books")
