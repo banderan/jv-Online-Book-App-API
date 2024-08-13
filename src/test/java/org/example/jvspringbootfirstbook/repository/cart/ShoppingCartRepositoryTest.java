@@ -13,11 +13,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-//import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.Sql;
+
+import java.util.Set;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.ANY)
 class ShoppingCartRepositoryTest {
+    public static final String EMAIL = "okok@email.com";
     @Autowired
     private ShoppingCartRepository shoppingCartRepository;
     @Autowired
@@ -27,20 +30,34 @@ class ShoppingCartRepositoryTest {
     @DisplayName("""
             Should return the ShoppingCart associated with the User having ID 1
             """)
-    /*@Sql(scripts = {"classpath:db/cart/repository/add_shopping_cart_with_necessities.sql"},
+    @Sql(scripts = {"classpath:db/cart/repository/delete_existing_carts.sql",
+            "classpath:db/cart/repository/add_shopping_cart_with_necessities.sql"},
             executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @Sql(scripts = {"classpath:db/cart/repository/delete_shopping_cart_with_necessities.sql"},
-            executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)*/
+    @Sql(scripts = {"classpath:db/cart/repository/delete_existing_carts.sql"},
+            executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void findShoppingCartByUser_UserWithIdEqualOne_returnsShoppingCart() {
-        User user = userRepository.findById(1L).orElseThrow(
-                () -> new EntityNotFoundException("User with id " + 1L + " not found")
+        User user = userRepository.findByEmail(EMAIL).orElseThrow(
+                () -> new EntityNotFoundException("User with email " + EMAIL + " not found")
         );
 
-        ShoppingCart shoppingCartByUser = shoppingCartRepository.findShoppingCartByUser(user);
-
+        ShoppingCart shoppingCartByUser = shoppingCartRepository.findShoppingCartByUser(user.getId());
         Assertions.assertAll(
                 () -> assertNotNull(shoppingCartByUser),
-                () -> assertEquals(user, shoppingCartByUser.getUser())
+                () -> assertEquals(user, shoppingCartByUser.getUser()),
+                () -> assertEquals(
+                        getTestShoppingCart(user.getId()),
+                        shoppingCartByUser)
         );
+    }
+
+    private ShoppingCart getTestShoppingCart(long userId) {
+        ShoppingCart shoppingCart = new ShoppingCart();
+        shoppingCart.setId(userId);
+        shoppingCart.setUser(userRepository.findById(userId).orElseThrow(
+                () -> new EntityNotFoundException("User with id " + userId + " not found")
+        ));
+        shoppingCart.setCartItems(Set.of());
+        shoppingCart.setDeleted(false);
+        return shoppingCart;
     }
 }

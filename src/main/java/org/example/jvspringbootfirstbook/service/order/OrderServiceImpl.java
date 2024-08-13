@@ -53,7 +53,7 @@ public class OrderServiceImpl implements OrderService {
 
     private Order fillingOrderWithItems(User user, Order newOrder) {
         ShoppingCart cart = shoppingCartRepository
-                .findShoppingCartByUser(user);
+                .findShoppingCartByUser(user.getId());
         Set<OrderItem> orderItemSet = getOrderItemSet(cart, newOrder);
 
         Set<OrderItem> orderItemsWithPrice = calculatePriceForSet(orderItemSet);

@@ -76,7 +76,7 @@ class ShoppingCartServiceImplTest {
         ShoppingCart shoppingCart = getShoppingCart(user);
         ShoppingCartDto expected = getShoppingCartDto(user, Set.of());
 
-        when(shoppingCartRepository.findShoppingCartByUser(user))
+        when(shoppingCartRepository.findShoppingCartByUser(user.getId()))
                 .thenReturn(shoppingCart);
         when(shoppingCartMapper.toDto(shoppingCart)).thenReturn(expected);
 
@@ -87,7 +87,7 @@ class ShoppingCartServiceImplTest {
                 () -> Assertions.assertEquals(user.getId(), actual.userId())
         );
 
-        verify(shoppingCartRepository, times(1)).findShoppingCartByUser(user);
+        verify(shoppingCartRepository, times(1)).findShoppingCartByUser(user.getId());
         verify(shoppingCartMapper, times(1)).toDto(shoppingCart);
         verifyNoMoreInteractions(shoppingCartRepository, shoppingCartMapper);
     }
@@ -112,7 +112,7 @@ class ShoppingCartServiceImplTest {
 
         when(cartItemMapper.toModel(cartItemRequestDto)).thenReturn(cartItem);
         when(bookRepository.findById(book.getId())).thenReturn(Optional.of(book));
-        when(shoppingCartRepository.findShoppingCartByUser(user)).thenReturn(shoppingCart);
+        when(shoppingCartRepository.findShoppingCartByUser(user.getId())).thenReturn(shoppingCart);
         when(shoppingCartRepository.save(shoppingCart)).thenReturn(shoppingCart);
         when(shoppingCartMapper.toDto(shoppingCart)).thenReturn(expected);
 
@@ -126,7 +126,7 @@ class ShoppingCartServiceImplTest {
 
         verify(cartItemMapper, times(1)).toModel(cartItemRequestDto);
         verify(bookRepository, times(1)).findById(book.getId());
-        verify(shoppingCartRepository, times(1)).findShoppingCartByUser(user);
+        verify(shoppingCartRepository, times(1)).findShoppingCartByUser(user.getId());
         verify(shoppingCartRepository, times(1)).save(shoppingCart);
         verify(shoppingCartMapper, times(1)).toDto(shoppingCart);
         verifyNoMoreInteractions(shoppingCartRepository, shoppingCartMapper,
