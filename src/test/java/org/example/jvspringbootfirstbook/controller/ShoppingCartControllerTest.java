@@ -2,6 +2,7 @@ package org.example.jvspringbootfirstbook.controller;
 
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,10 +21,7 @@ import org.example.jvspringbootfirstbook.repository.cart.CartItemRepository;
 import org.example.jvspringbootfirstbook.service.cart.ShoppingCartService;
 import org.example.jvspringbootfirstbook.service.user.UserService;
 import org.jetbrains.annotations.NotNull;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
@@ -31,6 +29,7 @@ import org.springframework.http.MediaType;
 import org.springframework.jdbc.datasource.init.ScriptUtils;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -92,7 +91,7 @@ class ShoppingCartControllerTest {
         }
     }
 
-    /*@Test
+    @Test
     @DisplayName("""
             Update item in cart with valid input returns CartItemDto
             """)
@@ -101,8 +100,6 @@ class ShoppingCartControllerTest {
         //Given
         long quantity = QUANTITY + 1;
         CartItemUpdatedDto cartItemUpdateDto = getCartItemUpdateDto((int) quantity);
-        userService.register();
-
         CartItem cartItem = getCartItem(
                 getShoppingCart(getUser()), getBook());
         CartItemRequestDto cartItemRequestDto = getCartItemRequestDto(QUANTITY, getBook());
@@ -127,7 +124,7 @@ class ShoppingCartControllerTest {
                 CartItemDto.class
         );
         Assertions.assertEquals(quantity, actual.quantity());
-    }*/
+    }
 
     @Test
     @DisplayName("""

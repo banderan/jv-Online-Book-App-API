@@ -3,7 +3,10 @@ package org.example.jvspringbootfirstbook.repository.cart;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import org.assertj.core.api.AssertionsForClassTypes;
 import org.example.jvspringbootfirstbook.exception.EntityNotFoundException;
+import org.example.jvspringbootfirstbook.model.Role;
+import org.example.jvspringbootfirstbook.model.RoleName;
 import org.example.jvspringbootfirstbook.model.ShoppingCart;
 import org.example.jvspringbootfirstbook.model.User;
 import org.example.jvspringbootfirstbook.repository.user.UserRepository;
@@ -21,11 +24,8 @@ import org.springframework.test.context.jdbc.Sql;
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class ShoppingCartRepositoryTest {
-    public static final String EMAIL = "okok@email.com";
     @Autowired
     private ShoppingCartRepository shoppingCartRepository;
-    @Autowired
-    private UserRepository userRepository;
 
     @Test
     @DisplayName("""
@@ -37,26 +37,30 @@ class ShoppingCartRepositoryTest {
     @Sql(scripts = {"classpath:db/cart/repository/delete_existing_carts.sql"},
             executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void findShoppingCartByUser_UserWithIdEqualOne_returnsShoppingCart() {
-        User user = userRepository.findByEmail(EMAIL).orElseThrow(
-                () -> new EntityNotFoundException("User with email " + EMAIL + " not found")
-        );
-
-        ShoppingCart shoppingCartByUser = shoppingCartRepository.findShoppingCartByUser(user.getId());
-        Assertions.assertAll(
-                () -> assertNotNull(shoppingCartByUser),
-                () -> assertEquals(user, shoppingCartByUser.getUser()),
-                () -> assertEquals(
-                        getTestShoppingCart(user.getId()),
-                        shoppingCartByUser)
-        );
+        int userId = 2;
+        ShoppingCart testShoppingCart = getTestShoppingCart();
+        ShoppingCart actual = shoppingCartRepository.findShoppingCartByUser(testShoppingCart.getUser().getId());
+        AssertionsForClassTypes.assertThat(actual).usingRecursiveComparison()
+                .isEqualTo(testShoppingCart);
     }
 
-    private ShoppingCart getTestShoppingCart(long userId) {
+    private ShoppingCart getTestShoppingCart() {
+        Role role = new Role();
+        role.setName(RoleName.ROLE_USER);
+
+        User user = new User();
+        user.setId(2L);
+        user.setEmail("okok@email.com");
+        user.setPassword("$2a$10$EhBFr.PagMjT0P0EYqRL/.KjPUA2vRSutGZo92Xr9Hh/JwwAJq/vi");//password
+        user.setFirstName("First Name");
+        user.setLastName("Last Name");
+        user.setShippingAddress("address");
+        user.setDeleted(false);
+        user.setRoles(Set.of(role));
+
         ShoppingCart shoppingCart = new ShoppingCart();
-        shoppingCart.setId(userId);
-        shoppingCart.setUser(userRepository.findById(userId).orElseThrow(
-                () -> new EntityNotFoundException("User with id " + userId + " not found")
-        ));
+        shoppingCart.setId(2L);
+        shoppingCart.setUser(user);
         shoppingCart.setCartItems(Set.of());
         shoppingCart.setDeleted(false);
         return shoppingCart;
