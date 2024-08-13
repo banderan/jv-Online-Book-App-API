@@ -13,7 +13,6 @@ import java.util.Set;
 import javax.sql.DataSource;
 import lombok.SneakyThrows;
 import org.example.jvspringbootfirstbook.dto.cart.CartItemDto;
-import org.example.jvspringbootfirstbook.dto.cart.CartItemRequestDto;
 import org.example.jvspringbootfirstbook.dto.cart.CartItemUpdatedDto;
 import org.example.jvspringbootfirstbook.model.Book;
 import org.example.jvspringbootfirstbook.model.CartItem;
@@ -127,22 +126,12 @@ class ShoppingCartControllerTest {
     @WithMockUser(username = "user", roles = "USER")
     @SneakyThrows
     void deleteItemFromCart_Success() {
-        CartItem cartItem = getCartItem(
-                getShoppingCart(getUser()), getBook());
+        CartItem cartItem = getCartItem(getShoppingCart(getUser()), getBook());
+        cartItem.setId(2L);
         Long cartItemId = cartItem.getId();
         mockMvc.perform(delete("/cart/cart-items/" + cartItemId)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
-    }
-
-    private static @NotNull CartItem getCartItem(
-            ShoppingCart shoppingCart, Book book, CartItemRequestDto cartItemRequestDto) {
-        CartItem cartItem = new CartItem();
-        cartItem.setShoppingCart(shoppingCart);
-        cartItem.setBook(book);
-        cartItem.setQuantity(cartItemRequestDto.quantity());
-        cartItem.setDeleted(false);
-        return cartItem;
     }
 
     private static @NotNull CartItem getCartItem(ShoppingCart shoppingCart, Book book) {
