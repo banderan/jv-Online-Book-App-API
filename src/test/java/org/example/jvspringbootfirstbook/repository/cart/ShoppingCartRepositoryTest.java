@@ -1,27 +1,17 @@
 package org.example.jvspringbootfirstbook.repository.cart;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
+import java.util.HashSet;
 import org.assertj.core.api.AssertionsForClassTypes;
-import org.example.jvspringbootfirstbook.exception.EntityNotFoundException;
 import org.example.jvspringbootfirstbook.model.Role;
 import org.example.jvspringbootfirstbook.model.RoleName;
 import org.example.jvspringbootfirstbook.model.ShoppingCart;
 import org.example.jvspringbootfirstbook.model.User;
-import org.example.jvspringbootfirstbook.repository.user.UserRepository;
-import org.junit.jupiter.api.Assertions;
-
-import java.util.HashSet;
-import java.util.Set;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.jdbc.Sql;
-
-
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -41,7 +31,9 @@ class ShoppingCartRepositoryTest {
     void findShoppingCartByUser_UserWithIdEqualOne_returnsShoppingCart() {
         int userId = 2;
         ShoppingCart testShoppingCart = getTestShoppingCart();
-        ShoppingCart actual = shoppingCartRepository.findShoppingCartByUser(testShoppingCart.getUser().getId());
+        ShoppingCart actual = shoppingCartRepository
+                .findShoppingCartByUser(testShoppingCart.getUser().getId());
+
         AssertionsForClassTypes.assertThat(actual).usingRecursiveComparison()
                 .isEqualTo(testShoppingCart);
     }
