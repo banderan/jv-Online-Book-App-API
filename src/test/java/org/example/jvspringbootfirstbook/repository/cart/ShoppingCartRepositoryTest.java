@@ -19,7 +19,7 @@ import org.springframework.test.context.jdbc.Sql;
 
 
 @DataJpaTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.ANY)
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class ShoppingCartRepositoryTest {
     public static final String EMAIL = "okok@email.com";
     @Autowired
@@ -29,7 +29,7 @@ class ShoppingCartRepositoryTest {
 
     @Test
     @DisplayName("""
-            Should return the ShoppingCart associated with the User having ID 1
+            Should return the ShoppingCart associated with the User having ID 2
             """)
     @Sql(scripts = {"classpath:db/cart/repository/delete_existing_carts.sql",
             "classpath:db/cart/repository/add_shopping_cart_with_necessities.sql"},
