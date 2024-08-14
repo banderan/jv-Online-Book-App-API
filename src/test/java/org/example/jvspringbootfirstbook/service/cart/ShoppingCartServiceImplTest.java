@@ -82,10 +82,9 @@ class ShoppingCartServiceImplTest {
 
         ShoppingCartDto actual = shoppingCartService.findUserCart(user);
 
-        Assertions.assertAll(
-                () -> Assertions.assertEquals(expected, actual),
-                () -> Assertions.assertEquals(user.getId(), actual.userId())
-        );
+        Assertions.assertEquals(expected, actual);
+        Assertions.assertEquals(user.getId(), actual.userId());
+
 
         verify(shoppingCartRepository, times(1)).findShoppingCartByUser(user.getId());
         verify(shoppingCartMapper, times(1)).toDto(shoppingCart);
@@ -118,11 +117,12 @@ class ShoppingCartServiceImplTest {
 
         ShoppingCartDto actual = shoppingCartService.addItem(user, cartItemRequestDto);
 
-        Assertions.assertAll(
-                () -> Assertions.assertNotNull(actual),
-                () -> Assertions.assertEquals(expected, actual),
-                () -> Assertions.assertEquals(user.getId(), actual.userId())
-        );
+
+
+        Assertions.assertNotNull(actual);
+        Assertions.assertEquals(expected, actual);
+        Assertions.assertEquals(user.getId(), actual.userId());
+
 
         verify(cartItemMapper, times(1)).toModel(cartItemRequestDto);
         verify(bookRepository, times(1)).findById(book.getId());
@@ -187,10 +187,10 @@ class ShoppingCartServiceImplTest {
         CartItemDto actual = shoppingCartService
                 .updateItemQuantity(cartItem.getId(), cartItemUpdateDto);
 
-        Assertions.assertAll(
-                () -> Assertions.assertNotNull(actual),
-                () -> Assertions.assertEquals(expected, actual)
-        );
+
+        Assertions.assertNotNull(actual);
+        Assertions.assertEquals(expected, actual);
+
 
         verify(cartItemRepository, times(1)).findById(ID);
         verify(cartItemRepository, times(1)).save(cartItem);
@@ -221,7 +221,7 @@ class ShoppingCartServiceImplTest {
         verifyNoMoreInteractions(cartItemRepository);
     }
 
-    private static @NotNull CartItem getCartItem(
+    private static CartItem getCartItem(
             ShoppingCart shoppingCart, Book book, CartItemRequestDto cartItemRequestDto) {
         CartItem cartItem = new CartItem();
         cartItem.setId(ID);
@@ -232,7 +232,7 @@ class ShoppingCartServiceImplTest {
         return cartItem;
     }
 
-    private static @NotNull CartItem getCartItem(ShoppingCart shoppingCart, Book book) {
+    private static CartItem getCartItem(ShoppingCart shoppingCart, Book book) {
         CartItem cartItem = new CartItem();
         cartItem.setId(ID);
         cartItem.setShoppingCart(shoppingCart);
@@ -242,7 +242,7 @@ class ShoppingCartServiceImplTest {
         return cartItem;
     }
 
-    private static @NotNull User getUser() {
+    private static User getUser() {
         User user = new User();
         user.setId(ID);
         user.setEmail(EMAIL);
@@ -255,7 +255,7 @@ class ShoppingCartServiceImplTest {
         return user;
     }
 
-    private static @NotNull ShoppingCart getShoppingCart(User user) {
+    private static ShoppingCart getShoppingCart(User user) {
         ShoppingCart shoppingCart = new ShoppingCart();
         shoppingCart.setId(ID);
         shoppingCart.setUser(user);
@@ -264,7 +264,7 @@ class ShoppingCartServiceImplTest {
         return shoppingCart;
     }
 
-    private static @NotNull ShoppingCartDto getShoppingCartDto(
+    private static ShoppingCartDto getShoppingCartDto(
             User user,
             Set<CartItemDto> cartItemDto) {
         return new ShoppingCartDto(
@@ -274,7 +274,7 @@ class ShoppingCartServiceImplTest {
         );
     }
 
-    private static @NotNull Book getBook() {
+    private static Book getBook() {
         Book book = new Book();
         book.setId(ID);
         book.setTitle(TITLE);
@@ -288,7 +288,7 @@ class ShoppingCartServiceImplTest {
         return book;
     }
 
-    private static @NotNull CartItemDto getCartItemDto(Book book, Long quantity) {
+    private static CartItemDto getCartItemDto(Book book, Long quantity) {
         return new CartItemDto(
                 ID,
                 book.getId(),
@@ -297,7 +297,7 @@ class ShoppingCartServiceImplTest {
         );
     }
 
-    private static @NotNull CartItemRequestDto getCartItemRequestDto(
+    private static CartItemRequestDto getCartItemRequestDto(
             int quantity,
             Book book) {
         return new CartItemRequestDto(
@@ -306,7 +306,7 @@ class ShoppingCartServiceImplTest {
         );
     }
 
-    private static @NotNull CartItemUpdatedDto getCartItemUpdateDto(int quantity) {
+    private static CartItemUpdatedDto getCartItemUpdateDto(int quantity) {
         return new CartItemUpdatedDto(quantity);
     }
 }

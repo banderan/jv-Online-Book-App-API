@@ -69,9 +69,7 @@ class ShoppingCartControllerTest {
     }
 
     @AfterAll
-    static void afterAll(
-            @Autowired DataSource dataSource
-    ) {
+    static void afterAll(@Autowired DataSource dataSource) {
         teardown(dataSource);
     }
 
@@ -134,7 +132,7 @@ class ShoppingCartControllerTest {
                 .andExpect(status().isNoContent());
     }
 
-    private static @NotNull CartItem getCartItem(ShoppingCart shoppingCart, Book book) {
+    private static CartItem getCartItem(ShoppingCart shoppingCart, Book book) {
         CartItem cartItem = new CartItem();
         cartItem.setShoppingCart(shoppingCart);
         cartItem.setBook(book);
@@ -143,7 +141,7 @@ class ShoppingCartControllerTest {
         return cartItem;
     }
 
-    private static @NotNull User getUser() {
+    private static User getUser() {
         User user = new User();
         user.setEmail(EMAIL);
         user.setPassword(PASSWORD);
@@ -155,7 +153,7 @@ class ShoppingCartControllerTest {
         return user;
     }
 
-    private static @NotNull ShoppingCart getShoppingCart(User user) {
+    private static ShoppingCart getShoppingCart(User user) {
         ShoppingCart shoppingCart = new ShoppingCart();
         shoppingCart.setUser(user);
         shoppingCart.setCartItems(new HashSet<>());
@@ -163,7 +161,7 @@ class ShoppingCartControllerTest {
         return shoppingCart;
     }
 
-    private static @NotNull Book getBook() {
+    private static Book getBook() {
         Book book = new Book();
         book.setTitle(TITLE);
         book.setAuthor(AUTHOR);
@@ -176,7 +174,7 @@ class ShoppingCartControllerTest {
         return book;
     }
 
-    private static @NotNull CartItemUpdatedDto getCartItemUpdateDto(int quantity) {
+    private static CartItemUpdatedDto getCartItemUpdateDto(int quantity) {
         return new CartItemUpdatedDto(quantity);
     }
 }

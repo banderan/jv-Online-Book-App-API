@@ -2,7 +2,6 @@ package org.example.jvspringbootfirstbook.controller;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doNothing;
@@ -57,12 +56,11 @@ class CategoryControllerTest {
         CategoryDto actualCategory = categoryController.createCategory(requestDto);
 
         // Then
-        assertAll(
-                () -> assertNotNull(actualCategory),
-                () -> assertEquals(expectedCategory.getId(), actualCategory.getId()),
-                () -> assertEquals(expectedCategory.getName(), actualCategory.getName()),
-                () -> assertEquals(expectedCategory.getDescription(), actualCategory
-                        .getDescription()));
+        assertNotNull(actualCategory);
+        assertEquals(expectedCategory.getId(), actualCategory.getId());
+        assertEquals(expectedCategory.getName(), actualCategory.getName());
+        assertEquals(expectedCategory.getDescription(), actualCategory
+                        .getDescription());
     }
 
     @Test
@@ -162,7 +160,7 @@ class CategoryControllerTest {
         assertEquals(expectedBooks, actualBooks);
     }
 
-    private static @NotNull Category getCategory() {
+    private static Category getCategory() {
         Category category = new Category();
         category.setId(1L);
         category.setName(NAME);
@@ -171,14 +169,14 @@ class CategoryControllerTest {
         return category;
     }
 
-    private static @NotNull CreateCategoryRequestDto getCreateCategoryRequestDto() {
+    private static CreateCategoryRequestDto getCreateCategoryRequestDto() {
         CreateCategoryRequestDto requestDto = new CreateCategoryRequestDto(
                 NAME, DESCRIPTION
         );
         return requestDto;
     }
 
-    private static @NotNull CategoryDto getCategoryDtoFromCategory(Category category) {
+    private static CategoryDto getCategoryDtoFromCategory(Category category) {
         CategoryDto categoryDto = new CategoryDto();
         categoryDto.setId(category.getId());
         categoryDto.setName(category.getName());

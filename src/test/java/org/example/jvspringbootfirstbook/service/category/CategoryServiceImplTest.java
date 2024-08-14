@@ -206,7 +206,7 @@ class CategoryServiceImplTest {
         verifyNoMoreInteractions(categoryRepository);
     }
 
-    private static @NotNull Category getCategory() {
+    private static Category getCategory() {
         Category category = new Category();
         category.setId(1L);
         category.setName(NAME);
@@ -215,14 +215,14 @@ class CategoryServiceImplTest {
         return category;
     }
 
-    private static @NotNull CreateCategoryRequestDto getCreateCategoryRequestDto() {
+    private static CreateCategoryRequestDto getCreateCategoryRequestDto() {
         CreateCategoryRequestDto requestDto = new CreateCategoryRequestDto(
                 NAME, DESCRIPTION
         );
         return requestDto;
     }
 
-    private static @NotNull CategoryDto getCategoryDtoFromCategory(Category category) {
+    private static CategoryDto getCategoryDtoFromCategory(Category category) {
         CategoryDto categoryDto = new CategoryDto();
         categoryDto.setId(category.getId());
         categoryDto.setName(category.getName());

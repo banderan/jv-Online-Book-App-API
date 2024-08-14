@@ -36,15 +36,14 @@ class ShoppingCartRepositoryTest {
         ShoppingCart testShoppingCart = getTestShoppingCart();
         ShoppingCart actual = shoppingCartRepository
                 .findShoppingCartByUser(userId);
-        Assertions.assertAll(
-                () -> Assertions.assertEquals(testShoppingCart.getId(),
-                        actual.getId()),
-                () -> Assertions.assertEquals(testShoppingCart.getUser().getEmail(),
-                        actual.getUser().getEmail()),
-                () -> Assertions.assertEquals(
+
+        Assertions.assertEquals(testShoppingCart.getId(),
+                        actual.getId());
+        Assertions.assertEquals(testShoppingCart.getUser().getEmail(),
+                        actual.getUser().getEmail());
+        Assertions.assertEquals(
                         takeItemsAndGetString(testShoppingCart),
-                        takeItemsAndGetString(actual))
-        );
+                        takeItemsAndGetString(actual));
     }
 
     private String takeItemsAndGetString(ShoppingCart testShoppingCart) {
