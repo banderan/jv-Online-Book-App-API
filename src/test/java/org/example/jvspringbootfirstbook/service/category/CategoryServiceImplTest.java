@@ -13,7 +13,6 @@ import org.example.jvspringbootfirstbook.exception.EntityNotFoundException;
 import org.example.jvspringbootfirstbook.mapper.CategoryMapper;
 import org.example.jvspringbootfirstbook.model.Category;
 import org.example.jvspringbootfirstbook.repository.category.CategoryRepository;
-import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -25,7 +25,6 @@ import org.example.jvspringbootfirstbook.model.User;
 import org.example.jvspringbootfirstbook.repository.book.BookRepository;
 import org.example.jvspringbootfirstbook.repository.cart.CartItemRepository;
 import org.example.jvspringbootfirstbook.repository.cart.ShoppingCartRepository;
-import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -85,7 +84,6 @@ class ShoppingCartServiceImplTest {
         Assertions.assertEquals(expected, actual);
         Assertions.assertEquals(user.getId(), actual.userId());
 
-
         verify(shoppingCartRepository, times(1)).findShoppingCartByUser(user.getId());
         verify(shoppingCartMapper, times(1)).toDto(shoppingCart);
         verifyNoMoreInteractions(shoppingCartRepository, shoppingCartMapper);
@@ -117,12 +115,9 @@ class ShoppingCartServiceImplTest {
 
         ShoppingCartDto actual = shoppingCartService.addItem(user, cartItemRequestDto);
 
-
-
         Assertions.assertNotNull(actual);
         Assertions.assertEquals(expected, actual);
         Assertions.assertEquals(user.getId(), actual.userId());
-
 
         verify(cartItemMapper, times(1)).toModel(cartItemRequestDto);
         verify(bookRepository, times(1)).findById(book.getId());
@@ -187,10 +182,8 @@ class ShoppingCartServiceImplTest {
         CartItemDto actual = shoppingCartService
                 .updateItemQuantity(cartItem.getId(), cartItemUpdateDto);
 
-
         Assertions.assertNotNull(actual);
         Assertions.assertEquals(expected, actual);
-
 
         verify(cartItemRepository, times(1)).findById(ID);
         verify(cartItemRepository, times(1)).save(cartItem);

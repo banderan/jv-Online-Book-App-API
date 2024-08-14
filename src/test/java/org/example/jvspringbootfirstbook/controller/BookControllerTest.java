@@ -19,7 +19,6 @@ import org.example.jvspringbootfirstbook.dto.book.CreateBookRequestDto;
 import org.example.jvspringbootfirstbook.model.Book;
 import org.example.jvspringbootfirstbook.model.Category;
 import org.example.jvspringbootfirstbook.service.book.BookService;
-import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;

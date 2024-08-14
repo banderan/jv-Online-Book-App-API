@@ -19,7 +19,6 @@ import org.example.jvspringbootfirstbook.model.CartItem;
 import org.example.jvspringbootfirstbook.model.Role;
 import org.example.jvspringbootfirstbook.model.ShoppingCart;
 import org.example.jvspringbootfirstbook.model.User;
-import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;

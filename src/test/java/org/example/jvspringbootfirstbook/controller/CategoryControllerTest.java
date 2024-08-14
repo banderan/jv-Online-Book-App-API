@@ -15,7 +15,6 @@ import org.example.jvspringbootfirstbook.dto.category.CreateCategoryRequestDto;
 import org.example.jvspringbootfirstbook.model.Category;
 import org.example.jvspringbootfirstbook.service.book.BookService;
 import org.example.jvspringbootfirstbook.service.category.CategoryService;
-import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
