@@ -22,7 +22,8 @@ class BookRepositoryTest {
     @DisplayName("""
             Find all books by category id
             """)
-    @Sql(scripts = {"classpath:db/books/repository/Add-book-to-books-table.sql"},
+    @Sql(scripts = {"classpath:db/books/repository/remove-book-from-books-table.sql",
+            "classpath:db/books/repository/Add-book-to-books-table.sql"},
             executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = {"classpath:db/books/repository/remove-book-from-books-table.sql"},
             executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
@@ -32,7 +33,7 @@ class BookRepositoryTest {
 
         List<Book> actual = bookRepository.findAllByCategoriesId(categoryId, pageable);
         Assertions.assertEquals(1, actual.size());
-        Assertions.assertEquals("title",
+        Assertions.assertEquals("Title",
                 actual.get(0).getTitle());
     }
 }

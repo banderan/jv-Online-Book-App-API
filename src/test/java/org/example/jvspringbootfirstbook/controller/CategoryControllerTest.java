@@ -2,7 +2,6 @@ package org.example.jvspringbootfirstbook.controller;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doNothing;
@@ -16,7 +15,6 @@ import org.example.jvspringbootfirstbook.dto.category.CreateCategoryRequestDto;
 import org.example.jvspringbootfirstbook.model.Category;
 import org.example.jvspringbootfirstbook.service.book.BookService;
 import org.example.jvspringbootfirstbook.service.category.CategoryService;
-import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -57,12 +55,11 @@ class CategoryControllerTest {
         CategoryDto actualCategory = categoryController.createCategory(requestDto);
 
         // Then
-        assertAll(
-                () -> assertNotNull(actualCategory),
-                () -> assertEquals(expectedCategory.getId(), actualCategory.getId()),
-                () -> assertEquals(expectedCategory.getName(), actualCategory.getName()),
-                () -> assertEquals(expectedCategory.getDescription(), actualCategory
-                        .getDescription()));
+        assertNotNull(actualCategory);
+        assertEquals(expectedCategory.getId(), actualCategory.getId());
+        assertEquals(expectedCategory.getName(), actualCategory.getName());
+        assertEquals(expectedCategory.getDescription(), actualCategory
+                        .getDescription());
     }
 
     @Test
@@ -162,7 +159,7 @@ class CategoryControllerTest {
         assertEquals(expectedBooks, actualBooks);
     }
 
-    private static @NotNull Category getCategory() {
+    private static Category getCategory() {
         Category category = new Category();
         category.setId(1L);
         category.setName(NAME);
@@ -171,14 +168,14 @@ class CategoryControllerTest {
         return category;
     }
 
-    private static @NotNull CreateCategoryRequestDto getCreateCategoryRequestDto() {
+    private static CreateCategoryRequestDto getCreateCategoryRequestDto() {
         CreateCategoryRequestDto requestDto = new CreateCategoryRequestDto(
                 NAME, DESCRIPTION
         );
         return requestDto;
     }
 
-    private static @NotNull CategoryDto getCategoryDtoFromCategory(Category category) {
+    private static CategoryDto getCategoryDtoFromCategory(Category category) {
         CategoryDto categoryDto = new CategoryDto();
         categoryDto.setId(category.getId());
         categoryDto.setName(category.getName());

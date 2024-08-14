@@ -13,7 +13,6 @@ import org.example.jvspringbootfirstbook.exception.EntityNotFoundException;
 import org.example.jvspringbootfirstbook.mapper.CategoryMapper;
 import org.example.jvspringbootfirstbook.model.Category;
 import org.example.jvspringbootfirstbook.repository.category.CategoryRepository;
-import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -40,7 +39,7 @@ class CategoryServiceImplTest {
 
     @Test
     @DisplayName("""
-            Verify findAll verify pageable
+            Find all categories with pagination - verify pageable
             """)
     public void findAll_VerifyPageable_ReturnsList() {
         //Given
@@ -65,7 +64,7 @@ class CategoryServiceImplTest {
 
     @Test
     @DisplayName("""
-            Verify getById method with correct id should return
+            Get category by valid ID - returns CategoryDto
             """)
     public void getById_withCorrectId_returnsCategoryDto() {
         //Given
@@ -86,7 +85,7 @@ class CategoryServiceImplTest {
 
     @Test
     @DisplayName("""
-            Verify getById method without id should throw EntityNotFoundException
+            Get category by invalid ID - throws EntityNotFoundException
             """)
     public void getById_withoutCorrectId_throwException() {
         //Given
@@ -107,7 +106,7 @@ class CategoryServiceImplTest {
 
     @Test
     @DisplayName("""
-            Verify save method with correct id should return CategoryDto
+            Save category with valid input - returns CategoryDto
             """)
     public void save_correctInput_ReturnsCategoryDto() {
         //Given
@@ -132,7 +131,7 @@ class CategoryServiceImplTest {
 
     @Test
     @DisplayName("""
-            Verify update method with correct id should return CategoryDto
+            Update category by valid ID - returns updated CategoryDto
             """)
     public void update_withCorrectId_returnsCategoryDto() {
         //Given
@@ -160,7 +159,7 @@ class CategoryServiceImplTest {
 
     @Test
     @DisplayName("""
-            Verify update method without correct id should throw EntityNotFoundException
+            Update category by invalid ID - throws EntityNotFoundException
             """)
     public void update_withoutCorrectId_throwException() {
         //Given
@@ -184,7 +183,7 @@ class CategoryServiceImplTest {
 
     @Test
     @DisplayName("""
-            Verify delete method with correct id should delete Category
+            Delete category by valid ID - category removed from DB
              from DB
             """)
     public void deleteById_withCorrectId_deleteCategoryFromDB() {
@@ -206,7 +205,7 @@ class CategoryServiceImplTest {
         verifyNoMoreInteractions(categoryRepository);
     }
 
-    private static @NotNull Category getCategory() {
+    private static Category getCategory() {
         Category category = new Category();
         category.setId(1L);
         category.setName(NAME);
@@ -215,14 +214,14 @@ class CategoryServiceImplTest {
         return category;
     }
 
-    private static @NotNull CreateCategoryRequestDto getCreateCategoryRequestDto() {
+    private static CreateCategoryRequestDto getCreateCategoryRequestDto() {
         CreateCategoryRequestDto requestDto = new CreateCategoryRequestDto(
                 NAME, DESCRIPTION
         );
         return requestDto;
     }
 
-    private static @NotNull CategoryDto getCategoryDtoFromCategory(Category category) {
+    private static CategoryDto getCategoryDtoFromCategory(Category category) {
         CategoryDto categoryDto = new CategoryDto();
         categoryDto.setId(category.getId());
         categoryDto.setName(category.getName());
