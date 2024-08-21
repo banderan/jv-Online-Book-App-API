@@ -55,10 +55,9 @@ The controllers in this application are designed with usability and security in 
 
 1. Check if you have Git installed: git --version
 2. Clone the repository (You can use SSH): git clone git clone git@github.com:...
-
-Alternatively, if you prefer to use HTTPS, the command would be: git clone https://...
-3. Navigate into the cloned repository: cd jv-Online-Book-App-API
-4. (Optional) Check the repository status: git status
+3. Alternatively, if you prefer to use HTTPS, the command would be: git clone https://...
+4. Navigate into the cloned repository: cd jv-Online-Book-App-API
+5. (Optional) Check the repository status: git status
 
 ### Build the project:
 
