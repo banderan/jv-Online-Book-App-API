@@ -38,7 +38,7 @@ The controllers in this application are designed with usability and security in 
 
 ## Visualization
 
-![Architecture Diagram]()
+![Architecture Diagram](entities.png)
 
 
 
