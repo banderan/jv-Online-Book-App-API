@@ -25,7 +25,6 @@ This project utilizes a range of advanced technologies and tools to create a sec
 
 ## Features
 
-
 The controllers in this application are designed with usability and security in mind:
 
 - **AuthenticationController** - Manages user registration and login.
@@ -74,22 +73,18 @@ The controllers in this application are designed with usability and security in 
 - **PUT** `/cart/cart-items/{id}` - Update an item in the user's cart.
 - **DELETE** `/cart/cart-items/{id}` - Remove an item from the user's cart.
 
-
-
 ## Visualization
 
 ![Architecture Diagram](entities.png)
 
-
-
 ## Configuration Instructions
 
-
-#### System Requirements
+#### Prerequisites
 
 - Java 17
 - Maven 3.8+
 - MySQL 8.0+
+- Docker
 
 #### Setup Steps
 
@@ -100,8 +95,14 @@ The controllers in this application are designed with usability and security in 
 5. (Optional) Check the repository status: git status
 
 ### Build the project:
-
 mvn clean package
+
+### Start the project:
+ **Start Docker**: Make sure Docker is up and running before you proceed with the setup.
+
+### After starting the application, the API documentation will be available at:
+http://localhost:8080/swagger-ui.html
+
 ## Login Credentials For Default Users
 
 ### Admin:
@@ -113,6 +114,7 @@ Password: password
 
 Email: john.doe@example.com
 Password: 123456
-### After starting the application, the API documentation will be available at:
 
-http://localhost:8080/swagger-ui.html
+## Application Information
+
+- **Developer**: Bartosz Wójcik
