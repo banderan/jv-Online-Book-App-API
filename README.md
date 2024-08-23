@@ -82,8 +82,6 @@ The controllers in this application are designed with usability and security in 
 #### Prerequisites
 
 - Java 17
-- Maven 3.8+
-- MySQL 8.0+
 - Docker
 
 #### Setup Steps
