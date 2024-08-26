@@ -1,7 +1,7 @@
 
-# JV Online Book App API
+# JV Online Book Store API
 
-The **JV Online Book App API** is a comprehensive backend application that provides an API for managing books, categories, orders, and shopping carts. This project was created to simplify the management of a large number of books in an online store by offering an easy-to-use set of API interfaces. The application supports CRUD (Create, Read, Update, Delete) operations and allows searching for books based on defined criteria.
+The **JV Online Book Store API** is a comprehensive backend application that provides an API for managing books, categories, orders, and shopping carts. This project was created to simplify the management of a large number of books in an online store by offering an easy-to-use set of API interfaces. The application supports CRUD (Create, Read, Update, Delete) operations and allows searching for books based on defined criteria.
 
 
 ## Technologies and Tools
