@@ -93,7 +93,7 @@ The controllers in this application are designed with usability and security in 
 5. (Optional) Check the repository status: git status
 
 ### Build the project:
-mvn clean package
+./mvnw clean package
 
 ### Start the project:
  **Start Docker**: Make sure Docker is up and running before you proceed with the setup.
