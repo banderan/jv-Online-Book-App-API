@@ -74,8 +74,9 @@ The controllers in this application are designed with usability and security in 
 - **DELETE** `/cart/cart-items/{id}` - Remove an item from the user's cart.
 
 ## Visualization & Video
+[Watch it on YouTube](https://youtu.be/Dqo_154wMUSo)
 
-[![Obejrzyj film na YouTube](https://img.youtube.com/vi/Dqo_154wMUSo/0.jpg)](https://youtu.be/Dqo_154wMUSo)
+![Architecture Diagram](entities.png)
 
 ## Configuration Instructions
 
