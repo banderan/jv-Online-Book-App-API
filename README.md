@@ -75,7 +75,7 @@ The controllers in this application are designed with usability and security in 
 
 ## Visualization & Video
 
-[![Obejrzyj film na YouTube](https://img.youtube.com/vi/TwójFilm/0.jpg)](https://www.youtube.com/watch?v=TwójFilm)
+[![Obejrzyj film na YouTube](https://img.youtube.com/vi/Dqo_154wMUSo/0.jpg)](https://youtu.be/Dqo_154wMUSo)
 
 ## Configuration Instructions
 
