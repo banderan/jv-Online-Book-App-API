@@ -78,7 +78,7 @@ The controllers in this application are designed with usability and security in 
 ![Architecture Diagram](entities.png)
 
 
-[Watch it on YouTube]((https://www.youtube.com/watch?v=Dq_154wMUSo))
+[Watch it on YouTube](https://youtu.be/Dq_154wMUSo?si=dpbcrDHKD13Z-4Ss)
 
 
 ## Configuration Instructions
