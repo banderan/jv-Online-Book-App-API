@@ -73,9 +73,9 @@ The controllers in this application are designed with usability and security in 
 - **PUT** `/cart/cart-items/{id}` - Update an item in the user's cart.
 - **DELETE** `/cart/cart-items/{id}` - Remove an item from the user's cart.
 
-## Visualization
+## Visualization & Video
 
-![Architecture Diagram](entities.png)
+[![Obejrzyj film na YouTube](https://img.youtube.com/vi/TwójFilm/0.jpg)](https://www.youtube.com/watch?v=TwójFilm)
 
 ## Configuration Instructions
 
