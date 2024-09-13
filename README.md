@@ -7,6 +7,10 @@ The **JV Online Book Store API** is a comprehensive backend application that pro
 You can wach how work my API
 [Watch it on YouTube](https://youtu.be/Dq_154wMUSo?si=dpbcrDHKD13Z-4Ss)
 
+## AWS
+If u wanna check my controllers:
+http://ec2-13-60-51-178.eu-north-1.compute.amazonaws.com/swagger-ui/index.html
+
 ## Technologies and Tools
 
 This project utilizes a range of advanced technologies and tools to create a secure, efficient, and scalable API:
